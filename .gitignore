@@ -33,6 +33,6 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 
-# Local planning / AI tooling state (dev-only, never ship)
-.planning/
+# AI tooling local state (dev-only, never ship)
 .claude/local/
+# Note: .planning/ IS version-controlled (GSD project artifacts, committed per phase).
