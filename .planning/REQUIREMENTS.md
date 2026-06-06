@@ -112,17 +112,62 @@ Deferred — acknowledged but not in the current roadmap.
 
 ## Traceability
 
-Populated during roadmap creation.
+Each v1 requirement maps to exactly one **primary** phase (where it is first delivered).
+Externals are delivered on **fake adapters** in their primary phase and **realized with real
+providers** in Phase 10 (noted in the Notes column); the requirement is not re-counted.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| (to be mapped by roadmapper) | — | Pending |
+| Requirement | Phase | Status | Notes |
+|-------------|-------|--------|-------|
+| PLAT-01 | Phase 1 | Pending | Monorepo + strict TS |
+| PLAT-02 | Phase 1 | Pending | Zod boundary schemas (applied at every edge through P10) |
+| PLAT-03 | Phase 1 | Pending | Decimal money representation locked before persistence |
+| PLAT-04 | Phase 1 | Pending | CI gate |
+| CUST-05 | Phase 1 | Pending | Thai-ID checksum pure validator (TDD) |
+| CUST-06 | Phase 1 | Pending | Passport format pure validator (TDD) |
+| VEH-02 | Phase 1 | Pending | Plate/chassis/engine format validators (TDD) |
+| FX-01 | Phase 1 | Pending | Table-driven Premium lookup |
+| FX-02 | Phase 1 | Pending | FX math: +15 kips/unit, ceil (TDD) |
+| FX-03 | Phase 1 | Pending | FX direction rule, no-conversion-on-THB (TDD) |
+| ORD-02 | Phase 1 | Pending | Order state machine pure table (TDD) |
+| COMM-01 | Phase 1 | Pending | Commission tier-ladder math (TDD); wired to Partners in P8 |
+| COMM-02 | Phase 1 | Pending | Commission boundary tests (TDD) |
+| SEC-01 | Phase 2 | Pending | PII encrypted at rest |
+| SEC-02 | Phase 2 | Pending | No secrets in code + CI secret-scan |
+| SEC-03 | Phase 2 | Pending | Audit log per PII access |
+| CUST-01 | Phase 3 | Pending | Lead capture |
+| CUST-02 | Phase 3 | Pending | Lead → Customer |
+| CUST-03 | Phase 3 | Pending | Attach IdentityDocument |
+| CUST-04 | Phase 3 | Pending | Fake OCR → raw OcrResult; real Google Vision in P10 |
+| CUST-07 | Phase 3 | Pending | Human-verify gate on money/legal fields |
+| VEH-01 | Phase 3 | Pending | Vehicle capture |
+| FX-04 | Phase 4 | Pending | Order charged from stored locked FxQuote |
+| ORD-01 | Phase 4 | Pending | Create Order |
+| ORD-03 | Phase 4 | Pending | Failure states + refund path |
+| ORD-04 | Phase 4 | Pending | Invoice generation |
+| PAY-01 | Phase 5 | Pending | One interface, Market-routed; fake adapter (real Phapay/Omise in P10) |
+| PAY-02 | Phase 5 | Pending | Idempotent + ordering-safe webhooks (TDD) |
+| PAY-03 | Phase 5 | Pending | Webhook sole source of truth; redirect never mutates |
+| CERT-01 | Phase 6 | Pending | Issue Certificate for PAID Order (adapter) |
+| CERT-02 | Phase 6 | Pending | Mandatory COI fields first-class |
+| CERT-03 | Phase 6 | Pending | Manual key-in + PDF upload adapter |
+| CERT-04 | Phase 6 | Pending | AI-agent adapter contract/stub; live AI issuance + human gate in P10 |
+| ADMIN-01 | Phase 7 | Pending | Admin Orders/Invoices/Payments/Certificates |
+| ADMIN-03 | Phase 7 | Pending | Admin audit_logs view |
+| MSG-01 | Phase 7 | Pending | Templated notifications on fake adapter; real WhatsApp/LINE in P10 |
+| PART-01 | Phase 8 | Pending | Register Partner |
+| PART-02 | Phase 8 | Pending | Attribute Order to Partner |
+| ADMIN-02 | Phase 8 | Pending | Admin Partners + Commission |
+| REN-01 | Phase 9 | Pending | Detect expiring Certificate |
+| REN-02 | Phase 9 | Pending | Renewal → new Order + fresh FxQuote |
+| REN-03 | Phase 9 | Pending | Reminder cadence |
+| MSG-02 | Phase 10 | Pending | Customer chatbot (never validates identifiers) |
+| SEC-04 | Phase 10 | Pending | Consent + cross-border legal go-live gate |
 
 **Coverage:**
 - v1 requirements: 41 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 41 ⚠️
+- Mapped to phases: 41 (each to exactly one primary phase)
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-06*
-*Last updated: 2026-06-06 after initial definition*
+*Last updated: 2026-06-06 after roadmap creation (traceability mapped)*
