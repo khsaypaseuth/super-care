@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Environment & secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local planning / AI tooling state (dev-only, never ship)
+.planning/
+.claude/local/
