@@ -97,6 +97,9 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 - **Workflow**: git commit at every phase; merge only on green CI (typecheck + lint + tests).
 - **FX rule (load-bearing)**: Premium standard = THB; Lao checkout converts THB → LAK at
   source rate **+15 kips, rounded up**; direction depends on collection currency.
+- **Hosting**: deploys to **Hostinger** — frontend (Next.js) + backend (NestJS) + **PostgreSQL**
+  all on Hostinger. The long-running NestJS/Next.js processes + a Postgres service require a
+  **Hostinger VPS** (not shared hosting). Prisma provider is pinned to `postgresql`.
 
 ## Key Decisions
 
@@ -109,6 +112,7 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 | Payment = one interface over Phapay (LAK) + Opn/Omise (THB), routed by Market | Avoids provider lock-in; deep-module pattern | — Pending |
 | Certificate via adapter: manual upload now, AI-agent auto-issue later | Matches the only two real issuance paths available today | — Pending |
 | FX: THB → LAK, +15 kips, round up (direction rule) | Defined commercial markup rule; must never ship wrong | — Pending |
+| Deploy to Hostinger VPS (Next.js + NestJS + PostgreSQL) | User's chosen host; Prisma pinned to postgresql | — Pending |
 
 ## Evolution
 
