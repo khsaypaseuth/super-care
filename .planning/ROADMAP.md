@@ -38,7 +38,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. `order.state-machine` accepts only legal transitions and **throws on illegal ones**, with the refund path (`PAID`/`CERT_FAILED → REFUNDING → REFUNDED`) and all failure states modelled and tested
   5. `commission.math` passes a tier-ladder table testing **both sides of every threshold** against the defined THB base
 **Exit gate**: FX test table green (direction + ceil + no-conversion-on-THB); Thai-ID checksum vectors green; illegal-transition-throws + refund-path tests green; commission boundary tests green.
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 01-01-PLAN.md — Monorepo scaffold, strict TS, ESLint(any-banned)+Prettier, Vitest, Zod boundary pattern, app shells, CI gate
+- [ ] 01-02-PLAN.md — Money value object (big.js), FX quote (+15/unit ceil + direction rule), table-driven Premium
+- [ ] 01-03-PLAN.md — Identifier validators: Thai-ID checksum, passport, plate/chassis/engine
+- [ ] 01-04-PLAN.md — Order state machine (illegal throws, refund path) + commission tier ladder
 
 ### Phase 2: Encrypted Data Layer & Audit Spine
 **Goal**: Persist the domain with PII encrypted at rest, every PII access audit-logged, secrets out of code, and consent captured.
