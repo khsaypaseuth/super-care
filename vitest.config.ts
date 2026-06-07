@@ -8,6 +8,11 @@ export default defineConfig({
       "packages/shared/src/**/*.spec.ts",
       "apps/web/src/**/*.spec.ts",
     ],
+    // Exclude integration specs — they require a live DB and run via pnpm test:int
+    exclude: [
+      "apps/web/src/**/*.int.spec.ts",
+      "node_modules/**",
+    ],
     // No watch mode — CI uses `vitest run`
     watch: false,
     coverage: {
