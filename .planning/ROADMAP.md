@@ -83,7 +83,12 @@ Plans:
   4. No secret literals exist in source; CI secret-scanning is wired and fails on a planted secret; secrets resolve from env/KMS
 
 **Exit gate**: PII encryption round-trip + audit-row-per-PII-access tests green; CI secret-scan blocks a planted secret.
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+
+- [ ] 02-01-PLAN.md — Prisma 7 install + schema shell (generator/datasource/enums), CryptoService + KeyProvider + blind-index (TDD unit), OrderState drift guard, integration vitest project, .env.example + USER-SETUP.md
+- [ ] 02-02-PLAN.md — Full schema (domain + 12 CMI master + User/Account + audit_logs + idempotency_keys) + [BLOCKING] initial migration, repository audit/blind-index spine, idempotent seed (integration)
+- [ ] 02-03-PLAN.md — gitleaks CI secret-scan (license-free binary) + Postgres service container + planted-secret human-verify
 
 ### Phase 3: Identity & Vehicle Capture (fakes)
 
@@ -237,7 +242,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Money/Legal Cores | 4/4 | Complete   | 2026-06-07 |
-| 2. Encrypted Data Layer & Audit Spine | 0/TBD | Not started | - |
+| 2. Encrypted Data Layer & Audit Spine | 0/3 | Planned | - |
 | 3. Identity & Vehicle Capture (fakes) | 0/TBD | Not started | - |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |
 | 5. Payment (fakes) | 0/TBD | Not started | - |
