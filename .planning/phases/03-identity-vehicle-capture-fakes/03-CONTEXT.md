@@ -106,7 +106,34 @@ portals (Phases 7–9).
 - Full master-table reference imports ([DATA] follow-up from Phase 2) — mapping works against whatever is seeded.
 </deferred>
 
+## Research-Resolved Decisions (2026-06-07, post-RESEARCH.md)
+
+- **Runnable app conversion is Wave-0 blocking:** `apps/web` is currently a typecheck-only ESM
+  library (`tsc -b`, `rootDir: src`, no `app/`). Wave 0 converts it to a runnable Next.js App
+  Router app and reconciles the root project-reference build + ESLint flat config globs (so
+  `app/` is linted). No wizard work until the shell runs.
+- **Draft persistence:** a server-persisted **`DraftIntake`** model holds in-progress wizard
+  state (selected insurer/policy-type, leadId, uploaded documentRef + ocrResultId, mapping
+  selections + per-field verified flags, vehicle draft). Final "Save" runs a transactional
+  action that creates/links **Customer** (from Lead), **IdentityDocument**, **Vehicle**, marks
+  them verified, audits in-transaction. This makes the CUST-07 verify gate **server-enforced**.
+- **CUST-07 REQUIRED_VERIFY_FIELDS (this phase):** identity/legal fields — national-ID/passport
+  number, first/last name, DOB — and vehicle legal identifiers — plate, chassis, engine. (No
+  money fields until Phase 4.) Final save MUST reject if any required field is unverified, and
+  re-run the pure validators server-side.
+- **Schema migration (required this phase):** add `Lead.customerId` (nullable FK) + `Lead.convertedAt`;
+  add `verifiedBy`/`verifiedAt` to `Customer` and `Vehicle`; add the `DraftIntake` model. One
+  Prisma `migrate dev` task ([BLOCKING], after schema edits, before integration verification).
+- **New repos:** add `vehicle.repo`, `lead.repo`, `ocr-result.repo` mirroring the Phase-2
+  repository pattern (encrypt + blind-index where applicable + `recordAudit(tx,…)` in the same
+  transaction). No new crypto/audit/validator logic — reuse Phase 1/2.
+- **Dependency vetting:** all net-new packages (next, react, tailwind v4, shadcn canary CLI,
+  next-intl, react-hook-form, @hookform/resolvers, zod resolver, fuzzy-match lib) are `[ASSUMED]`
+  until installed; gate installs behind a `checkpoint:human-verify` (automated dep-vetting
+  unavailable). Verified registry versions: Next 16.2.7, React 19.2.7, Tailwind 4.3.0,
+  next-intl 4.13.0, react-hook-form 7.77, @hookform/resolvers 5.4, zod 4.4.3.
+
 ---
 
 *Phase: 03-identity-vehicle-capture-fakes*
-*Context gathered: 2026-06-07 via inline capture*
+*Context gathered: 2026-06-07 via inline capture (+ research-resolved decisions)*
