@@ -89,7 +89,6 @@ describe("fxQuoteSchema", () => {
   });
 
   it("REJECTS an object with a missing required field (premiumThb)", () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { premiumThb: _premiumThb, ...withoutPremium } = VALID_LA_QUOTE;
     const result = fxQuoteSchema.safeParse(withoutPremium);
     expect(result.success).toBe(false);

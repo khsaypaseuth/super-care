@@ -6,10 +6,23 @@ export default tseslint.config(
   // Apply TypeScript-ESLint recommended rules
   ...tseslint.configs.recommended,
 
-  // Explicitly ban `any` — PLAT-01 enforcement
+  // Global rule overrides applied across all TS source files
   {
     rules: {
+      // Ban `any` — PLAT-01 enforcement
       "@typescript-eslint/no-explicit-any": "error",
+      // Allow unused args/vars when prefixed with "_" (standard TypeScript convention
+      // for intentionally unused parameters, e.g. interface implementations).
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          vars: "all",
+          args: "all",
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 
