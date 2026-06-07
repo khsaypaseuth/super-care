@@ -1,0 +1,54 @@
+// Prisma 7 schema — apps/web/prisma/schema.prisma
+// Generator: prisma-client (Prisma 7 default) with explicit ESM output.
+// Models: added in Plan 02-02. This file contains only the generator/datasource/enums.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+// Datasource URL is provided via prisma.config.ts (Prisma 7 requirement).
+// See apps/web/prisma.config.ts for the connection string configuration.
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums (mirror packages/shared — drift guard in order-states.spec.ts) ──────
+
+/// Mirrors Market union in packages/shared/src/types/index.ts
+enum Market {
+  TH
+  LA
+}
+
+/// Mirrors Currency union in packages/shared/src/types/index.ts
+enum Currency {
+  THB
+  LAK
+}
+
+/// Auth roles — schema only; RBAC logic lands in Phase 7
+enum Role {
+  ADMIN
+  STAFF
+  PARTNER
+  CUSTOMER
+}
+
+/// Order lifecycle states — EXACTLY mirrors TRANSITIONS keys in order.machine.ts (12 states)
+/// Drift enforced by packages/shared/src/order/order-states.spec.ts
+enum OrderState {
+  DRAFT
+  OCR_FAILED
+  QUOTED
+  AWAITING_PAYMENT
+  PAYMENT_FAILED
+  PAID
+  ISSUING_CERTIFICATE
+  CERT_FAILED
+  REFUNDING
+  COMPLETED
+  REFUNDED
+  CANCELLED
+}

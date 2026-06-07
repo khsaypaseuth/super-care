@@ -20,6 +20,8 @@ coverage/
 # Prisma
 prisma/*.db
 prisma/*.db-journal
+# Generated Prisma client output (build artifact — run `prisma generate` to rebuild)
+apps/web/src/generated/
 
 # Logs
 *.log
