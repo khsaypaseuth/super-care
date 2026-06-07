@@ -104,9 +104,30 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 - [ ] **CMI-05**: User pays for a Thai CMI Order via **PromptPay QR / Omise / 2C2P** (THB)
 - [ ] **CMI-06**: Issued CMI **policy (Certificate) PDF** is delivered to the customer and the Order is managed by staff in admin
 
+### Authentication & Access
+
+> v1 supports four account roles. The `User` / `Role` / account schema lands in **Phase 2**;
+> login + RBAC + manage-users UI lands at the **admin phase (Phase 7)** (per 2026-06-07
+> decision). Back-office phases 3–6 are built/tested before auth is layered on at Phase 7.
+
+- [ ] **AUTH-01**: A user can log in with credentials and hold a secure session
+- [ ] **AUTH-02**: Role-based access control with roles **ADMIN, STAFF, PARTNER, CUSTOMER**; each role sees only its permitted data and actions
+- [ ] **AUTH-03**: Admin can **manage user accounts** — create/disable accounts and assign roles (the admin "manage users" capability)
+- [ ] **AUTH-04**: Staff/Agent log in to process Orders in the back office
+- [ ] **AUTH-05**: Partner can log in to view their own attributed Orders and Commission
+- [ ] **AUTH-06**: Customer can log in to view their own Orders, Certificates, and Renewals
+
+### Platform API
+
+- [ ] **API-01**: Business logic lives in server-side modules; the backend exposes a clean, versioned **JSON API** (Next.js route handlers) consumable by the web app **and future native apps**
+
 ## v2 Requirements
 
 Deferred — acknowledged but not in the current roadmap.
+
+### Native Apps
+
+- **MOBILE-01**: Native **Android & iOS** apps (e.g. React Native / Expo) consuming the same JSON API (**API-01**). Web API is built app-consumable in v1; the apps themselves are v2.
 
 ### Self-Serve
 

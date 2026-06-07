@@ -84,6 +84,13 @@ Premium, FX conversion, or identifier is real money or legal exposure.
   policy PDF sent to customer. See `docs/CMI-SPEC.md` for master tables + reference data.
 - Cross-border (Lao↔Thai) FX, partner commission, and messaging/chatbot remain in V1 scope as
   later phases; Thai CMI is the first end-to-end slice. Light `Market`/`Currency` seams kept.
+- **Product surfaces:** (1) **public web** (desktop + mobile responsive), (2) **web admin**
+  (manage orders **and users**), (3) **native Android/iOS apps — deferred to v2**, built on the
+  same JSON API. v1 has four account roles: **ADMIN, STAFF, PARTNER, CUSTOMER**.
+- **Auth phasing:** `User`/`Role`/account schema in Phase 2; login + RBAC + manage-users UI at
+  the admin phase (Phase 7). Back-office phases 3–6 are built before auth is layered on.
+- **API seam:** business logic stays in server-side modules; Next.js route handlers expose a
+  clean versioned JSON API so the future native apps reuse it (no logic trapped in web UI).
 - Engineering standards already committed: `docs/ENGINEERING-STANDARDS.md` (ubiquitous
   language, vertical slices, TDD, deep modules, strict TS + Zod) and `docs/GLOSSARY.md`
   (authoritative vocabulary — same term in DB, service, API, UI, admin, chatbot).
@@ -130,6 +137,10 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 | UI must be mobile responsive | User requirement 2026-06-07 | — Pending |
 | OCR = Google Document AI; AI master-table mapping = Claude/GPT (never validates identifiers) | CMI spec recommendation | — Pending |
 | Payment (Thai CMI) = PromptPay QR / Omise / 2C2P | CMI spec; all THB | — Pending |
+| Three surfaces: public web + web admin (manage orders & users); native iOS/Android deferred to v2 | User confirmed 2026-06-07 | — Pending |
+| v1 roles = ADMIN, STAFF, PARTNER, CUSTOMER; admin manages users | User confirmed 2026-06-07 | — Pending |
+| Auth: User/Role schema in Phase 2; login/RBAC/manage-users UI at admin Phase 7 | User chose to keep auth near admin phase | — Pending |
+| Backend exposes clean JSON API for web + future native apps (API-01) | Keep logic in server modules; app-ready seam | — Pending |
 
 ## Evolution
 

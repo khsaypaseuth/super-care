@@ -12,6 +12,15 @@ super-care delivers one paid, certificate-issued cross-border (Laos ↔ Thailand
 > **CMI-05** (PromptPay/Omise/2C2P) → Phases 5 & 10; **CMI-06** (policy PDF + admin) →
 > Phases 6 & 7. Phase 1 (foundation/pure cores) is unaffected by this update.
 
+> **Update 2026-06-07 (surfaces, auth, native apps):** Surfaces = public web (desktop +
+> mobile responsive), web admin (manage orders **and users**), and **native iOS/Android apps
+> deferred to v2** (MOBILE-01) on the same JSON API. v1 roles = ADMIN/STAFF/PARTNER/CUSTOMER.
+> Mapping: **User/Role/Account schema** → Phase 2; **login + RBAC + admin manage-users**
+> (AUTH-01/02/03/04) → Phase 7; **partner portal** (AUTH-05) → Phase 8; **customer portal**
+> (AUTH-06) → Phase 9; **API-01** (app-consumable JSON API) is an ongoing seam across all
+> server work. Tradeoff (user-chosen): back-office Phases 3–6 are built/tested before auth is
+> layered on at Phase 7.
+
 ## Phases
 
 **Phase Numbering:**
@@ -63,11 +72,12 @@ Plans:
 **Goal**: Persist the domain with PII encrypted at rest, every PII access audit-logged, secrets out of code, and consent captured.
 **Mode:** mvp
 **Depends on**: Phase 1
-**Requirements**: SEC-01, SEC-02, SEC-03
+**Requirements**: SEC-01, SEC-02, SEC-03 (+ User/Role/Account schema for AUTH-01..06; CMI-01 master tables)
 **TDD-mandatory**: partial — encryption/decryption round-trip and audit-on-read are correctness-critical and tested.
 **Success Criteria** (what must be TRUE):
 
   1. Prisma schema migrates with Order, Customer, Lead, Vehicle, IdentityDocument, Invoice, Payment, Certificate, Partner, Commission, `audit_logs`, and `idempotency_keys` (money columns are `Decimal`, identifier columns encrypted)
+  1b. Schema includes `User`/`Account` + `Role` models supporting roles ADMIN/STAFF/PARTNER/CUSTOMER (RBAC **data model only**; login + enforcement land in Phase 7), plus the CMI master/reference tables (CMI-01: insurance_companies, cmi_policy_types, title names, card types, ISO-3166 nationalities, provinces/districts/subdistricts, car brands/models/colors, vehicle types)
   2. Passport / National-ID numbers and document blobs are stored encrypted via `CryptoService`; a deliberate read produces decrypted cleartext only inside the owning service
   3. Every PII read/write writes an `audit_logs` row (actor, action, subject, timestamp); a PII-read audit check passes
   4. No secret literals exist in source; CI secret-scanning is wired and fails on a planted secret; secrets resolve from env/KMS
@@ -150,18 +160,20 @@ Plans:
 
 ### Phase 7: Admin Back Office & Templated Messaging (fakes)
 
-**Goal**: Give staff a Next.js admin to view/manage the proven slice and send templated customer notifications via a fake messaging adapter.
+**Goal**: Stand up authentication + RBAC and a Next.js admin to log in, manage the proven slice and users, and send templated customer notifications via a fake messaging adapter.
 **Mode:** mvp
 **Depends on**: Phase 6
-**Requirements**: ADMIN-01, ADMIN-03, MSG-01
-**TDD-mandatory**: no — admin CRUD over existing tested services; messaging is templated send on a fake adapter.
+**Requirements**: ADMIN-01, ADMIN-03, MSG-01, AUTH-01, AUTH-02, AUTH-03, AUTH-04
+**TDD-mandatory**: partial — RBAC authorization checks are correctness-critical and tested; admin CRUD over existing tested services; messaging is templated send on a fake adapter.
 **Success Criteria** (what must be TRUE):
 
-  1. Admin can view and manage Orders, Invoices, Payments, and Certificates, with the locked FxQuote and human-confirmed fields surfaced
-  2. Admin can view `audit_logs`
-  3. `MessagingModule.send(customer, templateId, vars)` delivers a templated notification on the fake adapter with minimal PII (no identifiers leaked into templates)
+  1. A user can log in with a secure session; RBAC enforces roles ADMIN/STAFF/PARTNER/CUSTOMER so each role sees only permitted data/actions (AUTH-01/02); STAFF can log in to process Orders (AUTH-04)
+  2. Admin can view and manage Orders, Invoices, Payments, and Certificates, with the locked FxQuote and human-confirmed fields surfaced
+  3. Admin can **manage user accounts** — create/disable accounts and assign roles (AUTH-03)
+  4. Admin can view `audit_logs`
+  5. `MessagingModule.send(customer, templateId, vars)` delivers a templated notification on the fake adapter with minimal PII (no identifiers leaked into templates)
 
-**Exit gate**: admin renders the live slice; templated send carries no identifiers/PII.
+**Exit gate**: login + RBAC enforced (unauthorized role blocked, tested); admin renders the live slice and can manage users; templated send carries no identifiers/PII.
 **Plans**: TBD
 **UI hint**: yes
 
