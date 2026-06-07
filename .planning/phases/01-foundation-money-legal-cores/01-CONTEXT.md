@@ -13,8 +13,9 @@ only — **no database, no NestJS HTTP, no Next.js UI, no external adapters.** T
 later phases (data layer = Phase 2, capture/UI = Phase 3+).
 
 In scope (Phase 1):
-- Monorepo scaffold: `apps/api` (NestJS shell), `apps/web` (Next.js shell), `packages/shared`
-  (the pure logic home), under pnpm workspaces + TypeScript project references.
+- Monorepo scaffold: `apps/web` (Next.js shell — the full-stack app; API = route handlers /
+  server actions, **no NestJS**), `packages/shared` (the pure logic home), under pnpm
+  workspaces + TypeScript project references.
 - CI gate: typecheck + lint + tests, red on failure.
 - Pure, exhaustively-tested logic in `packages/shared`:
   - **FX math** — THB → LAK at source rate **+15 kips per rate unit, rounded up (ceil)**;
@@ -56,7 +57,9 @@ HTTP endpoints, OCR/payment/messaging/certificate adapters (even fakes), any UI.
 
 ### Pure-logic placement
 - All TDD-critical pure functions live in `packages/shared` with **no I/O imports**, so they
-  are trivially unit-testable and reused by both `apps/api` and `apps/web`.
+  are trivially unit-testable and reused across `apps/web` (server + client). There is no
+  separate API app — deep modules (Ocr, Payment, Order, Certificate…) will live as
+  server-side `lib/` modules inside the Next.js app in later phases.
 
 ### Thai National ID checksum (from PITFALLS research)
 - Algorithm: weights 13→2 across the first 12 digits; `check = (11 − (sum mod 11)) mod 10`;

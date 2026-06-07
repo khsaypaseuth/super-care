@@ -50,6 +50,12 @@ where a wrong value is real money or legal exposure:
 
 Each bounded module exposes a **small, clear public surface** and hides messy internals.
 
+> **Architecture update (2026-06-07):** the project uses **Next.js full-stack + Prisma (no
+> NestJS)**. The deep-module principle is unchanged — modules now live as **server-side
+> `lib/` modules** inside the Next.js app (e.g. `apps/web/src/server/modules/fx`), exposed
+> through Next.js route handlers / server actions instead of NestJS providers. Read
+> "module" below as a server-side TS module, not a NestJS module.
+
 - `FxModule.quote(market, baseAmount) → FxQuote` — hides rate feed, kip math, rounding,
   direction; returns a locked, time-stamped quote.
 - `OcrModule.extract(documentType, file) → OcrResult` — hides Google Vision calls and

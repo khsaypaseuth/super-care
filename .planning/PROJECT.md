@@ -73,8 +73,17 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 
 ## Context
 
-- Greenfield. pnpm monorepo: `apps/api` (NestJS, deep modules), `apps/web` (Next.js —
-  customer site + admin), `packages/shared` (Zod schemas, domain types, pure validators).
+- Greenfield. pnpm monorepo: `apps/web` (Next.js — full-stack: customer site + admin + API
+  via route handlers / server actions; **no NestJS**), `packages/shared` (Zod schemas, domain
+  types, pure validators). Deep modules (Ocr, Payment, Order, Certificate…) live as
+  server-side `lib/` modules inside the Next.js app. Prisma → PostgreSQL on Hostinger.
+- **First concrete market = Thai Compulsory Motor Insurance (CMI / พ.ร.บ.).** The V1 flow:
+  select insurance company → New Policy or Renewal → upload vehicle registration book (OCR via
+  Google Document AI) → AI maps extracted values to master tables → user verifies → pays online
+  (PromptPay QR / Omise / 2C2P, all THB) → staff receives order in admin → policy issued →
+  policy PDF sent to customer. See `docs/CMI-SPEC.md` for master tables + reference data.
+- Cross-border (Lao↔Thai) FX, partner commission, and messaging/chatbot remain in V1 scope as
+  later phases; Thai CMI is the first end-to-end slice. Light `Market`/`Currency` seams kept.
 - Engineering standards already committed: `docs/ENGINEERING-STANDARDS.md` (ubiquitous
   language, vertical slices, TDD, deep modules, strict TS + Zod) and `docs/GLOSSARY.md`
   (authoritative vocabulary — same term in DB, service, API, UI, admin, chatbot).
@@ -87,8 +96,11 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 
 ## Constraints
 
-- **Tech stack**: Node 22, pnpm, TypeScript (strict, `noImplicitAny`, `any` banned), NestJS,
-  Next.js, Prisma, Zod — fixed by the standards appendix.
+- **Tech stack**: Node 22, pnpm, TypeScript (strict, `noImplicitAny`, `any` banned),
+  **Next.js (full-stack: route handlers / server actions — no NestJS)**, Prisma, PostgreSQL,
+  Zod. OCR = Google Document AI; AI mapping = Claude/GPT; Payment = PromptPay QR / Omise / 2C2P
+  (Thai CMI) + Phapay (LAK, cross-border later). Supersedes the standards appendix's NestJS choice.
+- **UI**: must be **mobile responsive** across all customer- and staff-facing screens.
 - **Process**: TDD is mandatory for FX, identifier validators, commission, order state
   machine, and idempotent webhooks — a wrong value is money/legal exposure.
 - **Architecture**: deep modules with narrow public interfaces; provider swaps change one
@@ -112,7 +124,12 @@ Premium, FX conversion, or identifier is real money or legal exposure.
 | Payment = one interface over Phapay (LAK) + Opn/Omise (THB), routed by Market | Avoids provider lock-in; deep-module pattern | — Pending |
 | Certificate via adapter: manual upload now, AI-agent auto-issue later | Matches the only two real issuance paths available today | — Pending |
 | FX: THB → LAK, +15 kips, round up (direction rule) | Defined commercial markup rule; must never ship wrong | — Pending |
-| Deploy to Hostinger VPS (Next.js + NestJS + PostgreSQL) | User's chosen host; Prisma pinned to postgresql | — Pending |
+| Deploy to Hostinger VPS (Next.js + PostgreSQL) | User's chosen host; Prisma pinned to postgresql | — Pending |
+| Backend = Next.js full-stack + Prisma, NO NestJS | User decision 2026-06-07; simpler than NestJS, self-hosted on Hostinger (vs Supabase cloud); supersedes standards §A4 | — Pending |
+| First market = Thai CMI (พ.ร.บ.) only as the first slice; full cross-border platform kept in V1 | User confirmed scope 2026-06-07 + CMI spec | — Pending |
+| UI must be mobile responsive | User requirement 2026-06-07 | — Pending |
+| OCR = Google Document AI; AI master-table mapping = Claude/GPT (never validates identifiers) | CMI spec recommendation | — Pending |
+| Payment (Thai CMI) = PromptPay QR / Omise / 2C2P | CMI spec; all THB | — Pending |
 
 ## Evolution
 

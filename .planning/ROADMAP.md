@@ -4,6 +4,14 @@
 
 super-care delivers one paid, certificate-issued cross-border (Laos ↔ Thailand) vehicle-insurance transaction with correct money math, then widens into a full distribution platform. The build follows dependency direction: pure TDD'd money/legal cores first, then the encrypted/audited data layer, then the agent-assisted vertical slice (capture → quote → order → pay → certificate) running entirely on **fake adapters** so the spine is self-contained and fully testable. Once the spine is proven on fakes, the platform widens with admin back-office, partners/commission, and renewals, and only then swaps in **real external providers** (Google Vision, Phapay LAK / Omise THB, WhatsApp/LINE) behind the cross-border compliance go-live gate (PDPA / Lao Law 25). Provider and UI work never touches business logic — the deep-module/port-adapter boundaries hold throughout.
 
+> **Update 2026-06-07 (architecture + Thai CMI):** Backend is **Next.js full-stack + Prisma
+> (no NestJS)**. The first concrete market is **Thai CMI (พ.ร.บ.)** — see `docs/CMI-SPEC.md`.
+> New requirements fold into existing phases (mapped when each is planned): **UI-01** (mobile
+> responsive) → all UI phases (3–8, 10); **CMI-01** (master tables/reference data) → Phase 2;
+> **CMI-02/03/04** (company + new/renewal, reg-book OCR, AI master-table mapping) → Phase 3;
+> **CMI-05** (PromptPay/Omise/2C2P) → Phases 5 & 10; **CMI-06** (policy PDF + admin) →
+> Phases 6 & 7. Phase 1 (foundation/pure cores) is unaffected by this update.
+
 ## Phases
 
 **Phase Numbering:**

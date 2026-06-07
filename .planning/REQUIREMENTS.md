@@ -88,6 +88,22 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 - [ ] **SEC-03**: Every access to PII is recorded in `audit_logs`
 - [ ] **SEC-04**: Customer consent is captured before identity capture; cross-border data-residency basis (PDPA / Lao Law 25) is documented as a go-live gate
 
+### User Interface
+
+- [ ] **UI-01**: All customer- and staff-facing screens are **mobile responsive**
+
+### Thai CMI & Reference Data
+
+> First concrete market. See `docs/CMI-SPEC.md`. These refine the generic reqs above for the
+> Thai Compulsory Motor Insurance (พ.ร.บ.) flow.
+
+- [ ] **CMI-01**: Master tables exist and are seeded — `insurance_companies`, `cmi_policy_types`, title names, card types, nationalities (ISO-3166 Alpha-3), provinces/districts/subdistricts, car brands/models/colors, vehicle types
+- [ ] **CMI-02**: User selects an **insurance company** and **New Policy or Renewal** to start an Order
+- [ ] **CMI-03**: System OCRs the **vehicle registration book** (Google Document AI) into a raw OcrResult of owner + vehicle fields
+- [ ] **CMI-04**: System **AI-maps** OCR-extracted values to master-table entries for user verification; the AI mapping never performs identifier checksum validation (that stays deterministic per CUST-05/06, VEH-02)
+- [ ] **CMI-05**: User pays for a Thai CMI Order via **PromptPay QR / Omise / 2C2P** (THB)
+- [ ] **CMI-06**: Issued CMI **policy (Certificate) PDF** is delivered to the customer and the Order is managed by staff in admin
+
 ## v2 Requirements
 
 Deferred — acknowledged but not in the current roadmap.
