@@ -66,6 +66,7 @@ export async function truncateAll(db: PrismaClient): Promise<void> {
   // (children before parents to avoid FK violations)
   await db.$executeRawUnsafe(
     `TRUNCATE TABLE
+      draft_intakes,
       ocr_results,
       identity_documents,
       renewals,
