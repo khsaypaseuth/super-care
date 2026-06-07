@@ -10,6 +10,7 @@
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "test": "vitest run",
+    "test:int": "vitest run --config vitest.integration.config.ts",
     "test:watch": "vitest"
   },
   "devDependencies": {
