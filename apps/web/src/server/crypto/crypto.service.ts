@@ -22,8 +22,8 @@ import {
   createHmac,
   randomBytes,
 } from "node:crypto";
-import type { KeyProvider } from "./key-provider.js";
-import { normalizeIdentifier, type IdentifierKind } from "./normalize-identifier.js";
+import type { KeyProvider } from "./key-provider";
+import { normalizeIdentifier, type IdentifierKind } from "./normalize-identifier";
 
 export class CryptoService {
   constructor(private readonly keys: KeyProvider) {}

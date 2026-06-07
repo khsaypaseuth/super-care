@@ -19,13 +19,13 @@
 
 import "server-only";
 
-import type { OcrModule } from "./ocr/ocr.port.js";
-import type { MapperProvider } from "./mapper/mapper.port.js";
-import type { StorageProvider } from "./storage/storage.port.js";
+import type { OcrModule } from "./ocr/ocr.port";
+import type { MapperProvider } from "./mapper/mapper.port";
+import type { StorageProvider } from "./storage/storage.port";
 
-import { FakeOcrAdapter } from "./ocr/fake-ocr.adapter.js";
-import { FakeMapperAdapter } from "./mapper/fake-mapper.adapter.js";
-import { LocalFsStorageAdapter } from "./storage/localfs-storage.adapter.js";
+import { FakeOcrAdapter } from "./ocr/fake-ocr.adapter";
+import { FakeMapperAdapter } from "./mapper/fake-mapper.adapter";
+import { LocalFsStorageAdapter } from "./storage/localfs-storage.adapter";
 
 // ─── OCR module factory ────────────────────────────────────────────────────────
 

@@ -18,7 +18,7 @@
  * NOTE: No import of @super-care/shared/validators — structural test asserts this.
  */
 
-import type { MapperProvider, MasterCandidate, Suggestion } from "./mapper.port.js";
+import type { MapperProvider, MasterCandidate, Suggestion } from "./mapper.port";
 
 // ─── Internal helpers ──────────────────────────────────────────────────────────
 

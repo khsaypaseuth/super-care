@@ -10,8 +10,8 @@
  * Real adapter (Google Document AI) swaps in at Phase 10 with zero consumer changes.
  */
 
-import type { OcrModule, OcrResultRaw } from "./ocr.port.js";
-import { getCannedResult } from "./fixtures/regbook.js";
+import type { OcrModule, OcrResultRaw } from "./ocr.port";
+import { getCannedResult } from "./fixtures/regbook";
 
 export class FakeOcrAdapter implements OcrModule {
   /**

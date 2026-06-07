@@ -15,7 +15,7 @@
  * Do NOT use Prisma $extends or $use middleware for audit — see Anti-Patterns in 02-RESEARCH.md.
  */
 
-import type { PrismaClient } from "../../generated/prisma/client.js";
+import type { PrismaClient } from "../../generated/prisma/client";
 
 // The transaction client type — the arg passed to db.$transaction(async (tx) => { ... })
 // Prisma wraps the client in an Omit to remove $transaction and lifecycle methods inside a tx.

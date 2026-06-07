@@ -14,7 +14,7 @@
  * Import path: "../../generated/prisma/client.js" (ESM explicit extension — Prisma 7).
  */
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../generated/prisma/client.js";
+import { PrismaClient } from "../../generated/prisma/client";
 
 function createClient(): PrismaClient {
   const connectionString = process.env["DATABASE_URL"];

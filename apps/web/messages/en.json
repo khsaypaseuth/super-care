@@ -25,5 +25,151 @@
   "nav": {
     "home": "Home",
     "intakes": "Intakes"
+  },
+  "intake": {
+    "wizard": {
+      "progress": "Intake wizard progress",
+      "stepOf": "Step {current} of {total}"
+    },
+    "step": {
+      "start": "Start",
+      "customer": "Customer",
+      "document": "Document",
+      "verify": "Verify",
+      "vehicle": "Vehicle",
+      "review": "Review"
+    },
+    "shell": {
+      "userMenuPlaceholder": "Me"
+    },
+    "error": {
+      "generic": "Something went wrong. Please try again."
+    },
+    "start": {
+      "heading": "Start New Intake",
+      "description": "Select the insurance company and policy type to begin.",
+      "insuranceCompany": {
+        "label": "Insurance Company",
+        "placeholder": "Select insurance company…",
+        "empty": "No insurance companies found."
+      },
+      "policyMode": {
+        "label": "Policy Type",
+        "new": "New Policy",
+        "newDescription": "First-time registration for this vehicle.",
+        "renewal": "Renewal",
+        "renewalDescription": "Renewing an existing policy."
+      }
+    },
+    "customer": {
+      "heading": "Customer Information",
+      "description": "Enter the customer's personal details and identification.",
+      "title": {
+        "label": "Title",
+        "placeholder": "Select title…"
+      },
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Enter first name"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Enter last name"
+      },
+      "cardType": {
+        "label": "Card Type",
+        "placeholder": "Select card type…"
+      },
+      "nationalId": {
+        "label": "Thai National ID",
+        "placeholder": "13-digit national ID"
+      },
+      "passportNumber": {
+        "label": "Passport Number",
+        "placeholder": "Passport number"
+      },
+      "nationality": {
+        "label": "Nationality",
+        "placeholder": "Select nationality…"
+      },
+      "dob": {
+        "label": "Date of Birth",
+        "placeholder": "YYYY-MM-DD"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "Phone number"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "email@example.com"
+      },
+      "address": {
+        "heading": "Address",
+        "line1": {
+          "label": "Address Line 1",
+          "placeholder": "Street address"
+        },
+        "line2": {
+          "label": "Address Line 2",
+          "placeholder": "Apartment, unit, etc. (optional)"
+        },
+        "province": {
+          "label": "Province",
+          "placeholder": "Select province…"
+        },
+        "district": {
+          "label": "District",
+          "placeholder": "Select district…"
+        },
+        "subdistrict": {
+          "label": "Subdistrict",
+          "placeholder": "Select subdistrict…"
+        },
+        "postalCode": {
+          "label": "Postal Code",
+          "placeholder": "Postal code"
+        }
+      }
+    },
+    "document": {
+      "heading": "Vehicle Registration Book",
+      "description": "Upload the vehicle registration book. We will extract the vehicle details automatically.",
+      "dropzone": {
+        "title": "Upload Registration Book",
+        "description": "Drag and drop or click to upload",
+        "hint": "Supported formats: JPEG, PNG, WebP, PDF — up to 10 MB",
+        "browse": "Browse files"
+      },
+      "extracting": "Extracting document data…",
+      "extractingHint": "This may take a few seconds.",
+      "rawOcr": {
+        "heading": "Raw OCR (unverified)",
+        "description": "The values below were extracted directly from the document. They have not been verified or corrected. You will review them in the next step.",
+        "fieldLabel": {
+          "ownerName": "Owner Name",
+          "ownerAddress": "Owner Address",
+          "idCardNumber": "ID Card Number",
+          "passportNumber": "Passport Number",
+          "vehicleRegistrationNumber": "Registration Number",
+          "province": "Province",
+          "vehicleBrand": "Brand",
+          "vehicleModel": "Model",
+          "vehicleYear": "Year",
+          "chassisNumber": "Chassis Number",
+          "engineNumber": "Engine Number",
+          "engineCapacity": "Engine Capacity",
+          "vehicleWeight": "Vehicle Weight",
+          "seatCount": "Seat Count",
+          "vehicleColor": "Color"
+        }
+      },
+      "error": {
+        "upload": "Failed to process the document. Please check the file and try again.",
+        "invalidType": "File type not allowed. Please upload a JPEG, PNG, WebP, or PDF.",
+        "tooLarge": "File is too large. Maximum size is 10 MB."
+      },
+      "retry": "Try again"
+    }
   }
 }

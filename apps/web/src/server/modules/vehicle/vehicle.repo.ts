@@ -14,11 +14,11 @@
  *   - Until then callers pass { actor: "system" } or { actor: "test" }.
  */
 
-import type { PrismaClient, Vehicle } from "../../../generated/prisma/client.js";
-import { CryptoService } from "../../crypto/crypto.service.js";
-import { EnvKeyProvider } from "../../crypto/env-key-provider.js";
-import type { ActorContext } from "../../audit/audit.service.js";
-import { recordAudit } from "../../audit/audit.service.js";
+import type { PrismaClient, Vehicle } from "../../../generated/prisma/client";
+import { CryptoService } from "../../crypto/crypto.service";
+import { EnvKeyProvider } from "../../crypto/env-key-provider";
+import type { ActorContext } from "../../audit/audit.service";
+import { recordAudit } from "../../audit/audit.service";
 
 function defaultCrypto(): CryptoService {
   return new CryptoService(new EnvKeyProvider());

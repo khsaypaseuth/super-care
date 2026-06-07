@@ -26,9 +26,9 @@
 import { randomUUID } from "node:crypto";
 import { mkdirSync, writeFileSync, readFileSync, unlinkSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
-import type { StorageProvider } from "./storage.port.js";
-import { CryptoService } from "../../crypto/crypto.service.js";
-import { EnvKeyProvider } from "../../crypto/env-key-provider.js";
+import type { StorageProvider } from "./storage.port";
+import { CryptoService } from "../../crypto/crypto.service";
+import { EnvKeyProvider } from "../../crypto/env-key-provider";
 
 // ─── Path traversal guard ──────────────────────────────────────────────────────
 

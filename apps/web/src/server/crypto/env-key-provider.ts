@@ -19,7 +19,7 @@
  *   - .env files are gitignored; secrets are provisioned via the VPS environment.
  */
 
-import type { KeyProvider } from "./key-provider.js";
+import type { KeyProvider } from "./key-provider";
 
 export class EnvKeyProvider implements KeyProvider {
   currentKeyVersion(): number {

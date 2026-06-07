@@ -10,7 +10,7 @@
  * that values with surrounding whitespace survive untrimmed (CMI-03 / CUST-04).
  */
 
-import type { OcrResultRaw } from "../ocr.port.js";
+import type { OcrResultRaw } from "../ocr.port";
 
 /**
  * Default canned reg-book OCR result.

@@ -13,12 +13,12 @@
  *   - Until then callers pass { actor: "system" } or { actor: "test" }.
  */
 
-import type { PrismaClient, Lead, Customer } from "../../../generated/prisma/client.js";
-import type { ActorContext } from "../../audit/audit.service.js";
-import { recordAudit } from "../../audit/audit.service.js";
-import { type CreateCustomerInput } from "../customer/customer.repo.js";
-import { CryptoService } from "../../crypto/crypto.service.js";
-import { EnvKeyProvider } from "../../crypto/env-key-provider.js";
+import type { PrismaClient, Lead, Customer } from "../../../generated/prisma/client";
+import type { ActorContext } from "../../audit/audit.service";
+import { recordAudit } from "../../audit/audit.service";
+import { type CreateCustomerInput } from "../customer/customer.repo";
+import { CryptoService } from "../../crypto/crypto.service";
+import { EnvKeyProvider } from "../../crypto/env-key-provider";
 
 function defaultCrypto(): CryptoService {
   return new CryptoService(new EnvKeyProvider());
@@ -32,9 +32,8 @@ export interface CreateLeadInput {
   notes?: string;
 }
 
-export interface ConvertLeadInput extends CreateCustomerInput {
-  // All fields come from CreateCustomerInput — firstName, lastName, nationalId, etc.
-}
+// ConvertLeadInput is an alias of CreateCustomerInput — all customer PII fields.
+export type ConvertLeadInput = CreateCustomerInput;
 
 // ─── Repository ────────────────────────────────────────────────────────────────
 

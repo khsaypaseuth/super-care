@@ -15,9 +15,9 @@
  *   - Until then callers pass { actor: "system" } or { actor: "test" }.
  */
 
-import type { PrismaClient, OcrResult } from "../../../generated/prisma/client.js";
-import type { ActorContext } from "../../audit/audit.service.js";
-import { recordAudit } from "../../audit/audit.service.js";
+import type { PrismaClient, OcrResult } from "../../../generated/prisma/client";
+import type { ActorContext } from "../../audit/audit.service";
+import { recordAudit } from "../../audit/audit.service";
 
 // ─── Input / Output types ──────────────────────────────────────────────────────
 

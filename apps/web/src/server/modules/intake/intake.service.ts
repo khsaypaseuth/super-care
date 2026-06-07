@@ -23,18 +23,18 @@
 
 import "server-only";
 
-import type { PrismaClient, DraftIntake, Customer, IdentityDocument, Vehicle } from "../../../generated/prisma/client.js";
-import type { ActorContext } from "../../audit/audit.service.js";
-import { recordAudit } from "../../audit/audit.service.js";
-import { CryptoService } from "../../crypto/crypto.service.js";
-import { EnvKeyProvider } from "../../crypto/env-key-provider.js";
+import type { PrismaClient, DraftIntake, Customer, IdentityDocument, Vehicle } from "../../../generated/prisma/client";
+import type { ActorContext } from "../../audit/audit.service";
+import { recordAudit } from "../../audit/audit.service";
+import { CryptoService } from "../../crypto/crypto.service";
+import { EnvKeyProvider } from "../../crypto/env-key-provider";
 
-import { assertVerified } from "./verify-gate.js";
-import { createDraftIntake, updateDraftIntake, getDraftIntake } from "../draft-intake/draft-intake.repo.js";
-import { createOcrResult } from "../ocr-result/ocr-result.repo.js";
+import { assertVerified } from "./verify-gate";
+import { createDraftIntake, updateDraftIntake, getDraftIntake } from "../draft-intake/draft-intake.repo";
+import { createOcrResult } from "../ocr-result/ocr-result.repo";
 
-import { getOcrModule, getMapperProvider, getStorageProvider } from "../../adapters/registry.js";
-import type { MasterCandidate, Suggestion } from "../../adapters/mapper/mapper.port.js";
+import { getOcrModule, getMapperProvider, getStorageProvider } from "../../adapters/registry";
+import type { MasterCandidate, Suggestion } from "../../adapters/mapper/mapper.port";
 
 // ─── Default crypto ────────────────────────────────────────────────────────────
 
