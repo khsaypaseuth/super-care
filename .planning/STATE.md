@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-06-07T14:23:58.275Z"
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-06-07T21:35:00.000Z"
 last_activity: 2026-06-07
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 13
-  completed_plans: 10
-  percent: 20
+  completed_plans: 11
+  percent: 22
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 ## Current Position
 
 Phase: 03 (identity-vehicle-capture-fakes) — EXECUTING
-Plan: 4 of 6
+Plan: 5 of 6
 Status: Ready to execute
 Last activity: 2026-06-07
 
@@ -56,6 +56,7 @@ Progress: [██████░░░░] 65%
 | Phase 03 P03-01 | 35 | 2 tasks | 23 files |
 | Phase 03 P03-02 | 30 | 3 tasks | 11 files |
 | Phase 03-identity-vehicle-capture-fakes P03-03 | 20min | - tasks | - files |
+| Phase 03-identity-vehicle-capture-fakes P03-04 | 25min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Hand-rolled Levenshtein over fastest-levenshtein — zero new external deps in regulated PII app
 - [Phase ?]: LocalFsStorageAdapter: AES-256-GCM encryption via CryptoService; double path-traversal guard; server-generated UUID refs never from user input
 - [Phase ?]: registry.ts marked import server-only; config-selected via OCR_PROVIDER/MAPPER_PROVIDER/STORAGE_PROVIDER env; real adapters Phase 10
+- [03-04]: server-only shim aliased in vitest configs (both unit + integration); Next.js enforces the real guard at build time
+- [03-04]: assertVerified runs OUTSIDE the transaction (gate-before-write = T-03-15); DraftIntake.mapping.customerDraft/vehicleDraft store PII draft server-side until saveIntake encrypts in tx
 
 ### Pending Todos
 
@@ -113,5 +116,5 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-06-07T14:23:58.272Z
-Stopped at: Completed 03-03-PLAN.md
+Last session: 2026-06-07T21:35:00.000Z
+Stopped at: Completed 03-04-PLAN.md
