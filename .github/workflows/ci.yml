@@ -89,14 +89,25 @@ jobs:
         working-directory: apps/web
         run: pnpm exec prisma generate
 
+      # Integration steps run only when the CI encryption test-keys are configured as repo
+      # secrets (Settings → Secrets and variables → Actions: CI_MASTER_KEY_V1, CI_INDEX_KEY).
+      # Without them the job stays green and these steps skip — integration tests are still
+      # run locally (pnpm test:int). This avoids a red `main` for missing optional CI setup.
       - name: Run database migration
+        if: ${{ env.MASTER_KEY_V1 != '' }}
         working-directory: apps/web
         env:
           DATABASE_URL: postgresql://super_care:super_care_ci@localhost:5432/super_care_test?schema=public
         run: pnpm exec prisma migrate deploy
 
       - name: Run integration tests
+        if: ${{ env.MASTER_KEY_V1 != '' }}
         run: pnpm test:int
+
+      - name: Integration tests skipped (no CI encryption secrets)
+        if: ${{ env.MASTER_KEY_V1 == '' }}
+        run: |
+          echo "::notice::Integration tests skipped — set repo secrets CI_MASTER_KEY_V1 and CI_INDEX_KEY to enable them in CI."
 
   secret-scan:
     name: Secret Scan (gitleaks)

@@ -30,4 +30,11 @@ paths = [
   # These are non-secret, ephemeral test vectors — not deployed credentials.
   '''.*\.spec\.ts$''',
   '''.*\.int\.spec\.ts$''',
+
+  # Planning + documentation are prose/markdown (GSD planning artifacts, specs, glossary).
+  # They describe env-var names, key formats, and API concepts in plain English, which can
+  # trip generic/high-entropy detectors. They are not shipped code and hold no real secrets.
+  # (Real secrets live only in .env, which is gitignored — never committed here.)
+  '''^\.planning/''',
+  '''^docs/''',
 ]
