@@ -1,0 +1,33 @@
+# .gitleaks.toml — gitleaks v8.x configuration for super-care
+#
+# Strategy: extend the built-in default ruleset (100+ detectors for AWS/GCP/Stripe/JWT/etc.)
+# and allowlist known-safe paths that contain intentional placeholder text or test fixtures
+# so they do not produce false positives.
+#
+# Key facts:
+#   - gitleaks binary v8.30.1 (CLI); the licensed action is NOT used (Pitfall 4 / T-02-14).
+#   - --exit-code 1 is passed on the CLI (fails the build on any finding).
+#   - --redact is passed on the CLI (suppresses secret values from logs).
+
+[extend]
+# Inherit all default gitleaks rules (AWS keys, GCP SA keys, Stripe/Twilio/GitHub tokens,
+# JWT secrets, private keys, RSA/PEM headers, high-entropy strings, etc.)
+useDefault = true
+
+[allowlist]
+description = "Ignore example/test placeholders and committed test fixtures that are not real secrets"
+
+# Paths to skip entirely (regex anchored from the repo root).
+# These files are expected to contain placeholder text that looks like a secret format
+# but holds no real secret value.
+paths = [
+  # .env.example: placeholder values like <base64-encoded-32-bytes> and <password>.
+  # Users copy this file to .env (gitignored) and replace with real values.
+  '''\.env\.example$''',
+
+  # Unit and integration test specs may contain hardcoded test key material
+  # (e.g. 32-byte base64 strings injected as stub keys in crypto.service.spec.ts).
+  # These are non-secret, ephemeral test vectors — not deployed credentials.
+  '''.*\.spec\.ts$''',
+  '''.*\.int\.spec\.ts$''',
+]

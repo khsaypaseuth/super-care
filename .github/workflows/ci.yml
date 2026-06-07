@@ -39,3 +39,85 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+  integration-tests:
+    name: Integration Tests (Postgres)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: super_care
+          POSTGRES_PASSWORD: super_care_ci
+          POSTGRES_DB: super_care_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U super_care"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      TEST_DATABASE_URL: postgresql://super_care:super_care_ci@localhost:5432/super_care_test?schema=public
+      # Test-only encryption keys — non-secret, used only in ephemeral CI Postgres; never reused in production.
+      # These are fixed test values committed intentionally; gitleaks allowlists this workflow file.
+      MASTER_KEY_V1: ${{ secrets.CI_MASTER_KEY_V1 }}
+      MASTER_KEY_CURRENT: "1"
+      INDEX_KEY: ${{ secrets.CI_INDEX_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.x"
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        working-directory: apps/web
+        run: pnpm exec prisma generate
+
+      - name: Run database migration
+        working-directory: apps/web
+        env:
+          DATABASE_URL: postgresql://super_care:super_care_ci@localhost:5432/super_care_test?schema=public
+        run: pnpm exec prisma migrate deploy
+
+      - name: Run integration tests
+        run: pnpm test:int
+
+  secret-scan:
+    name: Secret Scan (gitleaks)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Full history required — gitleaks scans all commits, not just HEAD.
+          # Without this, secrets planted in earlier commits in the branch go undetected.
+          fetch-depth: 0
+
+      - name: Install gitleaks v8.30.1
+        run: |
+          curl -sSfL \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz \
+            | tar -xz -C /usr/local/bin gitleaks
+
+      - name: Run gitleaks secret scan
+        # --exit-code 1: any finding fails the build (SEC-02 requirement)
+        # --redact: suppress secret values from the log output (T-02-15)
+        # --config: custom allowlist so .env.example placeholders + test fixtures do not false-positive
+        run: gitleaks detect --source . --redact --exit-code 1 --config .gitleaks.toml
