@@ -31,7 +31,7 @@ super-care delivers one paid, certificate-issued cross-border (Laos ↔ Thailand
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Money/Legal Cores** - Monorepo, CI gate, and all TDD-mandatory pure logic (validators, FX math, Order state machine, commission math) green before any plumbing (completed 2026-06-07)
-- [ ] **Phase 2: Encrypted Data Layer & Audit Spine** - Prisma schema, PII encryption at rest, audit logging, secret-scanning, and consent capture
+- [x] **Phase 2: Encrypted Data Layer & Audit Spine** - Prisma schema, PII encryption at rest, audit logging, secret-scanning, and consent capture (completed 2026-06-07)
 - [ ] **Phase 3: Identity & Vehicle Capture (fakes)** - Lead→Customer, OCR on fake adapter, raw OcrResult, pure-validator + human-verify gate
 - [ ] **Phase 4: Pricing & Order Spine** - Table-driven Premium, locked FxQuote, Order created and governed by the live state machine, Invoice
 - [ ] **Phase 5: Payment (fakes)** - One payment interface routed by Market, idempotent + ordering-safe webhooks, webhook as sole money source of truth
@@ -89,7 +89,7 @@ Plans:
 
 - [x] 02-01-PLAN.md — Prisma 7 install + schema shell (generator/datasource/enums), CryptoService + KeyProvider + blind-index (TDD unit), OrderState drift guard, integration vitest project, .env.example + USER-SETUP.md
 - [x] 02-02-PLAN.md — Full schema (domain + 12 CMI master + User/Account + audit_logs + idempotency_keys) + [BLOCKING] initial migration, repository audit/blind-index spine, idempotent seed (integration) — 27 integration tests green
-- [ ] 02-03-PLAN.md — gitleaks CI secret-scan (license-free binary) + Postgres service container + planted-secret human-verify
+- [x] 02-03-PLAN.md — gitleaks CI secret-scan (license-free binary) + Postgres service container + planted-secret human-verify
 
 ### Phase 3: Identity & Vehicle Capture (fakes)
 
@@ -243,7 +243,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Money/Legal Cores | 4/4 | Complete   | 2026-06-07 |
-| 2. Encrypted Data Layer & Audit Spine | 2/3 | In Progress|  |
+| 2. Encrypted Data Layer & Audit Spine | 3/3 | Complete   | 2026-06-07 |
 | 3. Identity & Vehicle Capture (fakes) | 0/TBD | Not started | - |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |
 | 5. Payment (fakes) | 0/TBD | Not started | - |
