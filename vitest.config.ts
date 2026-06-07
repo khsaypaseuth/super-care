@@ -2,14 +2,26 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    // Cover all spec files in packages/shared
-    include: ["packages/shared/src/**/*.spec.ts"],
+    // Cover all unit spec files in packages/shared AND apps/web server modules
+    // (no DATABASE_URL needed — unit tests inject keys directly, no DB I/O)
+    include: [
+      "packages/shared/src/**/*.spec.ts",
+      "apps/web/src/**/*.spec.ts",
+    ],
     // No watch mode — CI uses `vitest run`
     watch: false,
     coverage: {
       provider: "v8",
-      include: ["packages/shared/src/**/*.ts"],
-      exclude: ["packages/shared/src/**/*.spec.ts"],
+      include: [
+        "packages/shared/src/**/*.ts",
+        "apps/web/src/**/*.ts",
+      ],
+      exclude: [
+        "packages/shared/src/**/*.spec.ts",
+        "apps/web/src/**/*.spec.ts",
+        // Generated Prisma client is a build artifact — not our code
+        "apps/web/src/generated/**",
+      ],
     },
   },
 });
