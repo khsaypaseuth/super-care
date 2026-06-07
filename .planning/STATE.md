@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase-complete
-stopped_at: "Phase 01 Plan 04 — complete (Phase 01 DONE)"
-last_updated: "2026-06-07T09:10:00Z"
-last_activity: "2026-06-07 -- Phase 01 Plan 04 complete: Order machine + commission TDD'd; 54 new tests, 134 total green"
+status: executing
+stopped_at: "Phase 01 COMPLETE — all 4 plans done. 134 total tests green, typecheck + lint clean. Next: Phase 02 (data layer / Prisma schema)."
+last_updated: "2026-06-07T03:35:42.469Z"
+last_activity: 2026-06-07
 progress:
   total_phases: 10
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 7
+  completed_plans: 5
   percent: 10
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core value:** A real customer can complete one paid, certificate-issued cross-border insurance transaction, top to bottom, with correct money math.
-**Current focus:** Phase 02 — data-layer (next phase)
+**Current focus:** Phase 02 — encrypted-data-layer-audit-spine
 
 ## Current Position
 
-Phase: 01 (foundation-money-legal-cores) — COMPLETE
-Plan: 4 of 4 — ALL COMPLETE
-Status: Phase 01 done — all 4 plans complete
-Last activity: 2026-06-07 -- Plan 01-04 complete: Order state machine (39 tests — all states/failure/refund/illegal-throw) + commission tier ladder (15 tests — boundary vectors both sides); 54 new tests, 134 total green; typecheck + lint clean
+Phase: 02 (encrypted-data-layer-audit-spine) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-06-07
 
 Progress: [██░░░░░░░░] 10%
 
@@ -93,5 +93,5 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-06-07
+Last session: 2026-06-07T03:35:42.466Z
 Stopped at: Phase 01 COMPLETE — all 4 plans done. 134 total tests green, typecheck + lint clean. Next: Phase 02 (data layer / Prisma schema).

@@ -78,6 +78,7 @@ Plans:
 
   1. Prisma schema migrates with Order, Customer, Lead, Vehicle, IdentityDocument, Invoice, Payment, Certificate, Partner, Commission, `audit_logs`, and `idempotency_keys` (money columns are `Decimal`, identifier columns encrypted)
   1b. Schema includes `User`/`Account` + `Role` models supporting roles ADMIN/STAFF/PARTNER/CUSTOMER (RBAC **data model only**; login + enforcement land in Phase 7), plus the CMI master/reference tables (CMI-01: insurance_companies, cmi_policy_types, title names, card types, ISO-3166 nationalities, provinces/districts/subdistricts, car brands/models/colors, vehicle types)
+
   2. Passport / National-ID numbers and document blobs are stored encrypted via `CryptoService`; a deliberate read produces decrypted cleartext only inside the owning service
   3. Every PII read/write writes an `audit_logs` row (actor, action, subject, timestamp); a PII-read audit check passes
   4. No secret literals exist in source; CI secret-scanning is wired and fails on a planted secret; secrets resolve from env/KMS
@@ -86,7 +87,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 
-- [ ] 02-01-PLAN.md — Prisma 7 install + schema shell (generator/datasource/enums), CryptoService + KeyProvider + blind-index (TDD unit), OrderState drift guard, integration vitest project, .env.example + USER-SETUP.md
+- [x] 02-01-PLAN.md — Prisma 7 install + schema shell (generator/datasource/enums), CryptoService + KeyProvider + blind-index (TDD unit), OrderState drift guard, integration vitest project, .env.example + USER-SETUP.md
 - [ ] 02-02-PLAN.md — Full schema (domain + 12 CMI master + User/Account + audit_logs + idempotency_keys) + [BLOCKING] initial migration, repository audit/blind-index spine, idempotent seed (integration)
 - [ ] 02-03-PLAN.md — gitleaks CI secret-scan (license-free binary) + Postgres service container + planted-secret human-verify
 
@@ -242,7 +243,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Money/Legal Cores | 4/4 | Complete   | 2026-06-07 |
-| 2. Encrypted Data Layer & Audit Spine | 0/3 | Planned | - |
+| 2. Encrypted Data Layer & Audit Spine | 1/3 | In Progress|  |
 | 3. Identity & Vehicle Capture (fakes) | 0/TBD | Not started | - |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |
 | 5. Payment (fakes) | 0/TBD | Not started | - |

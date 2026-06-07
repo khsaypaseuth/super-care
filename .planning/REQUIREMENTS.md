@@ -83,8 +83,8 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 ### Security & Compliance
 
-- [ ] **SEC-01**: PII (passport, national ID, documents) is encrypted at rest
-- [ ] **SEC-02**: No secrets in code; all secrets are env/KMS-managed
+- [x] **SEC-01**: PII (passport, national ID, documents) is encrypted at rest
+- [x] **SEC-02**: No secrets in code; all secrets are env/KMS-managed
 - [ ] **SEC-03**: Every access to PII is recorded in `audit_logs`
 - [ ] **SEC-04**: Customer consent is captured before identity capture; cross-border data-residency basis (PDPA / Lao Law 25) is documented as a go-live gate
 
@@ -119,7 +119,7 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 ### Platform API
 
-- [ ] **API-01**: Business logic lives in server-side modules; the backend exposes a clean, versioned **JSON API** (Next.js route handlers) consumable by the web app **and future native apps**
+- [x] **API-01**: Business logic lives in server-side modules; the backend exposes a clean, versioned **JSON API** (Next.js route handlers) consumable by the web app **and future native apps**
 
 ## v2 Requirements
 
@@ -168,8 +168,8 @@ providers** in Phase 10 (noted in the Notes column); the requirement is not re-c
 | ORD-02 | Phase 1 | Pending | Order state machine pure table (TDD) |
 | COMM-01 | Phase 1 | Pending | Commission tier-ladder math (TDD); wired to Partners in P8 |
 | COMM-02 | Phase 1 | Pending | Commission boundary tests (TDD) |
-| SEC-01 | Phase 2 | Pending | PII encrypted at rest |
-| SEC-02 | Phase 2 | Pending | No secrets in code + CI secret-scan |
+| SEC-01 | Phase 2 | Complete | PII encrypted at rest |
+| SEC-02 | Phase 2 | Complete | No secrets in code + CI secret-scan |
 | SEC-03 | Phase 2 | Pending | Audit log per PII access |
 | CUST-01 | Phase 3 | Pending | Lead capture |
 | CUST-02 | Phase 3 | Pending | Lead → Customer |
@@ -201,6 +201,7 @@ providers** in Phase 10 (noted in the Notes column); the requirement is not re-c
 | SEC-04 | Phase 10 | Pending | Consent + cross-border legal go-live gate |
 
 **Coverage:**
+
 - v1 requirements: 41 total
 - Mapped to phases: 41 (each to exactly one primary phase)
 - Unmapped: 0 ✓
