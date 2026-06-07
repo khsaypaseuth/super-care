@@ -85,9 +85,9 @@ describe("Premium lookup — table-driven THB lookup (FX-01)", () => {
 
   describe("unknown key throws a clear error", () => {
     it("throws on unknown coverage class", () => {
+      // Cast through unknown to test runtime behavior with an invalid coverage value
       expect(() =>
-        // @ts-expect-error — testing unknown coverage at runtime
-        lookupPremiumThb("UNKNOWN_COVERAGE" as CoverageClass, "sedan"),
+        lookupPremiumThb("UNKNOWN_COVERAGE" as unknown as CoverageClass, "sedan"),
       ).toThrow(/No premium/i);
     });
 
@@ -96,9 +96,9 @@ describe("Premium lookup — table-driven THB lookup (FX-01)", () => {
     });
 
     it("throws on unknown coverage AND vehicle type combination", () => {
+      // Cast through unknown to test runtime behavior with an invalid coverage value
       expect(() =>
-        // @ts-expect-error — testing unknown coverage at runtime
-        lookupPremiumThb("INVALID" as CoverageClass, "unknown"),
+        lookupPremiumThb("INVALID" as unknown as CoverageClass, "unknown"),
       ).toThrow(/No premium/i);
     });
 

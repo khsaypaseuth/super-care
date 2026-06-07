@@ -6,7 +6,7 @@
  */
 import { describe, it, expect } from "vitest";
 import Big from "big.js";
-import { Money, makeMoney, addMoney } from "./money.js";
+import { makeMoney, addMoney } from "./money.js";
 
 describe("Money value object (PLAT-03)", () => {
   describe("construction from decimal string", () => {
