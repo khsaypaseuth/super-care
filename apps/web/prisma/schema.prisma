@@ -1,6 +1,6 @@
 // Prisma 7 schema — apps/web/prisma/schema.prisma
 // Generator: prisma-client (Prisma 7 default) with explicit ESM output.
-// Models: added in Plan 02-02. This file contains only the generator/datasource/enums.
+// Models: domain + 12 CMI master tables + User/Account + audit_logs + idempotency_keys
 
 generator client {
   provider     = "prisma-client"
@@ -51,4 +51,628 @@ enum OrderState {
   COMPLETED
   REFUNDED
   CANCELLED
+}
+
+// ─── Auth data model (schema only — NO login/hashing/session logic — Phase 7) ───
+
+/// Application user. Credential fields modelled; hashing + verification + sessions = Phase 7.
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  /// Field modelled; hashing/verification = Phase 7. Never set/read until Phase 7.
+  passwordHash String?
+  role         Role      @default(CUSTOMER)
+  accounts     Account[]
+  partnerId    String?
+  partner      Partner?  @relation(fields: [partnerId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("users")
+}
+
+/// OAuth / provider account link shape; populated in Phase 7.
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider          String
+  providerAccountId String
+  createdAt         DateTime @default(now())
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// ─── Domain models (glossary-exact names) ─────────────────────────────────────
+
+/// A prospective customer who has expressed interest but not yet transacted.
+model Lead {
+  id        String   @id @default(cuid())
+  email     String?
+  phone     String?
+  notes     String?
+  market    Market   @default(TH)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("leads")
+}
+
+/// A person or entity that has placed at least one order.
+/// PII at rest: nationalId/passportNumber stored as CryptoService envelope (String).
+/// Blind-index companions (nationalIdIdx/passportNumberIdx) are HMAC-SHA256(normalized, indexKey).
+model Customer {
+  id String @id @default(cuid())
+
+  // Demographics (plaintext — not searchable-by-exact-value in the same way)
+  firstName  String
+  lastName   String
+  email      String?
+  phone      String?
+
+  // PII — stored as CryptoService envelope (AES-256-GCM); decrypt only in customer.repo
+  /// AES-256-GCM envelope: v{n}:{ivB64}:{tagB64}:{ctB64}. Decrypt in customer.repo only.
+  nationalId    String?
+  /// HMAC-SHA256(normalizeIdentifier(rawNationalId, "id"), indexKey). Used for blind-index lookup.
+  nationalIdIdx String? @unique
+
+  /// AES-256-GCM envelope. Decrypt in customer.repo only.
+  passportNumber    String?
+  /// HMAC-SHA256(normalizeIdentifier(rawPassportNumber, "text"), indexKey).
+  passportNumberIdx String? @unique
+
+  // Consent capture (SEC-04 legal go-live gate = Phase 10)
+  consentAt      DateTime?
+  consentVersion String?
+
+  market    Market   @default(TH)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  identityDocuments IdentityDocument[]
+  vehicles          Vehicle[]
+  orders            Order[]
+
+  @@map("customers")
+}
+
+/// The insured vehicle (plate, chassis, engine identifiers).
+/// PII at rest: chassisNumber and engineNumber stored as CryptoService envelope.
+model Vehicle {
+  id String @id @default(cuid())
+
+  // Identification — stored as CryptoService envelopes
+  /// AES-256-GCM envelope. Decrypt in vehicle.repo only.
+  chassisNumber    String?
+  /// HMAC-SHA256(normalizeIdentifier(rawChassisNumber, "text"), indexKey).
+  chassisNumberIdx String? @unique
+  /// AES-256-GCM envelope. Decrypt in vehicle.repo only.
+  engineNumber     String?
+
+  // Standard vehicle fields (plaintext)
+  platePrefix   String?
+  plateNumber   String?
+  plateProvince String?
+  year          Int?
+  engineCC      Int?
+  seatCount     Int?
+  weight        Decimal? @db.Decimal(10, 2)
+
+  // Relations to CMI master tables
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  brandId String?
+  brand   MasterCarBrand? @relation(fields: [brandId], references: [id])
+
+  modelId String?
+  model   MasterCarModel? @relation(fields: [modelId], references: [id])
+
+  colorId String?
+  color   MasterCarColor? @relation(fields: [colorId], references: [id])
+
+  vehicleTypeId String?
+  vehicleType   MasterVehicleType? @relation(fields: [vehicleTypeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("vehicles")
+}
+
+/// A passport or national ID document submitted by a customer.
+/// PII: documentNumber + documentRef stored as CryptoService envelopes.
+model IdentityDocument {
+  id String @id @default(cuid())
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  cardTypeId String?
+  cardType   MasterCardType? @relation(fields: [cardTypeId], references: [id])
+
+  // PII — stored as CryptoService envelopes
+  /// AES-256-GCM envelope. Decrypt in identity-document.repo only.
+  documentNumber    String?
+  /// HMAC-SHA256(normalizeIdentifier(rawDocumentNumber, "text"), indexKey).
+  documentNumberIdx String? @unique
+  /// AES-256-GCM envelope (storage reference / blob path). Decrypt in identity-document.repo only.
+  documentRef String?
+
+  issuedAt  DateTime?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  ocrResults OcrResult[]
+
+  @@map("identity_documents")
+}
+
+/// The raw extracted output from OCR of an IdentityDocument. Never "cleaned".
+/// Raw payload stored as opaque Json — never normalized into typed columns.
+model OcrResult {
+  id                 String           @id @default(cuid())
+  identityDocumentId String
+  identityDocument   IdentityDocument @relation(fields: [identityDocumentId], references: [id], onDelete: Restrict)
+
+  /// Raw OCR output — never normalized. Store as-is from Google Document AI.
+  rawPayload Json
+
+  provider  String   @default("google_document_ai")
+  createdAt DateTime @default(now())
+
+  @@map("ocr_results")
+}
+
+/// The insurance price charged to the customer.
+/// amount is Decimal — NEVER Float/Double (PLAT-03).
+model Premium {
+  id String @id @default(cuid())
+
+  /// Amount in the order's currency. Decimal — NEVER Float/Double.
+  amount   Decimal  @db.Decimal(18, 4)
+  currency Currency @default(THB)
+
+  insuranceCompanyId String?
+  insuranceCompany   InsuranceCompany? @relation(fields: [insuranceCompanyId], references: [id])
+
+  policyTypeId String?
+  policyType   CmiPolicyType? @relation(fields: [policyTypeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("premiums")
+}
+
+/// A locked, time-stamped foreign-exchange quote (source rate + markup, rounded).
+/// All rate/amount fields are Decimal — NEVER Float/Double (PLAT-03).
+model FxQuote {
+  id String @id @default(cuid())
+
+  fromCurrency Currency
+  toCurrency   Currency
+
+  /// Source exchange rate (e.g. THB/LAK spot). Decimal — NEVER Float.
+  sourceRate Decimal @db.Decimal(18, 8)
+  /// Markup applied on top of source rate. Decimal — NEVER Float.
+  markup Decimal @db.Decimal(18, 8)
+  /// Final result rate after markup + rounding. Decimal — NEVER Float.
+  resultRate Decimal @db.Decimal(18, 8)
+
+  /// Amount in fromCurrency being converted. Decimal — NEVER Float.
+  fromAmount Decimal @db.Decimal(18, 4)
+  /// Amount in toCurrency after conversion. Decimal — NEVER Float.
+  toAmount Decimal @db.Decimal(18, 4)
+
+  lockedAt  DateTime @default(now())
+  expiresAt DateTime?
+
+  orders Order[]
+
+  @@map("fx_quotes")
+}
+
+/// A single insurance purchase transaction, governed by the order state machine.
+/// Order.state column exists now; live transition wiring is Phase 4.
+model Order {
+  id String @id @default(cuid())
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  premiumId String?
+  premium   Premium? @relation(fields: [premiumId], references: [id])
+
+  fxQuoteId String?
+  fxQuote   FxQuote? @relation(fields: [fxQuoteId], references: [id])
+
+  /// Order lifecycle state. Column exists now; live wiring is Phase 4.
+  state OrderState @default(DRAFT)
+  market Market    @default(TH)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  invoices     Invoice[]
+  certificates Certificate[]
+
+  @@map("orders")
+}
+
+/// The billing record for an Order.
+/// total is Decimal — NEVER Float/Double.
+model Invoice {
+  id String @id @default(cuid())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  /// Invoice total. Decimal — NEVER Float/Double.
+  total    Decimal  @db.Decimal(18, 4)
+  currency Currency @default(THB)
+
+  issuedAt  DateTime  @default(now())
+  dueAt     DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  paymentAttempts PaymentAttempt[]
+  payments        Payment[]
+
+  @@map("invoices")
+}
+
+/// One attempt to collect payment for an Invoice (may fail/retry).
+model PaymentAttempt {
+  id String @id @default(cuid())
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+
+  provider  String
+  status    String  @default("PENDING")
+  /// Amount attempted. Decimal — NEVER Float/Double.
+  amount   Decimal  @db.Decimal(18, 4)
+  currency Currency @default(THB)
+
+  errorCode    String?
+  errorMessage String?
+
+  attemptedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@map("payment_attempts")
+}
+
+/// A successfully captured payment.
+/// amount is Decimal — NEVER Float/Double.
+model Payment {
+  id String @id @default(cuid())
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+
+  provider         String
+  providerPaymentId String?
+
+  /// Amount captured. Decimal — NEVER Float/Double.
+  amount   Decimal  @db.Decimal(18, 4)
+  currency Currency @default(THB)
+
+  capturedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@map("payments")
+}
+
+/// The issued insurance certificate (the legal proof of cover).
+model Certificate {
+  id String @id @default(cuid())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  insuranceCompanyId String?
+  insuranceCompany   InsuranceCompany? @relation(fields: [insuranceCompanyId], references: [id])
+
+  policyTypeId String?
+  policyType   CmiPolicyType? @relation(fields: [policyTypeId], references: [id])
+
+  /// Storage reference to the PDF file. Plain string — not PII.
+  pdfRef    String?
+  issuedAt  DateTime?
+  startsAt  DateTime?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  renewals Renewal[]
+
+  @@map("certificates")
+}
+
+/// The process/record of renewing an expiring Certificate.
+model Renewal {
+  id String @id @default(cuid())
+
+  certificateId String
+  certificate   Certificate @relation(fields: [certificateId], references: [id], onDelete: Restrict)
+
+  scheduledAt DateTime?
+  completedAt DateTime?
+  status      String    @default("PENDING")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("renewals")
+}
+
+/// A channel partner / agent who refers business and earns commission.
+model Partner {
+  id String @id @default(cuid())
+
+  name  String
+  email String  @unique
+  phone String?
+  code  String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  commissions Commission[]
+  users       User[]
+
+  @@map("partners")
+}
+
+/// Amount owed to a Partner, computed by the commission tier ladder.
+/// amount is Decimal — NEVER Float/Double.
+model Commission {
+  id String @id @default(cuid())
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Restrict)
+
+  orderId String?
+
+  /// Commission amount. Decimal — NEVER Float/Double.
+  amount   Decimal  @db.Decimal(18, 4)
+  currency Currency @default(THB)
+
+  tier      String?
+  status    String  @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("commissions")
+}
+
+// ─── Operational tables ────────────────────────────────────────────────────────
+
+/// Audit log for all PII read/write operations.
+/// Written in the SAME transaction as the data operation (SEC-03).
+/// Actor supplied by caller ActorContext; real actor wired in Phase 7.
+model AuditLog {
+  id          String   @id @default(cuid())
+  actor       String
+  action      String
+  subjectType String
+  subjectId   String
+  createdAt   DateTime @default(now())
+
+  @@index([subjectType, subjectId])
+  @@map("audit_logs")
+}
+
+/// Idempotency key for webhook deduplication.
+/// Schema only — Phase 5 uses it for webhook processing.
+model IdempotencyKey {
+  id        String   @id @default(cuid())
+  provider  String
+  eventId   String
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@unique([provider, eventId])
+  @@map("idempotency_keys")
+}
+
+// ─── CMI master/reference tables (CMI-01) ─────────────────────────────────────
+
+/// Insurance company (insurer behind a Certificate).
+model InsuranceCompany {
+  id   String @id @default(cuid())
+  code String @unique
+  name String
+  nameTh String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  premiums     Premium[]
+  certificates Certificate[]
+
+  @@map("insurance_companies")
+}
+
+/// CMI policy type (New Policy / Renewal / etc.)
+model CmiPolicyType {
+  id     String @id @default(cuid())
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  premiums     Premium[]
+  certificates Certificate[]
+
+  @@map("cmi_policy_types")
+}
+
+/// Master title names (คุณ/นาย/นาง/นางสาว/เด็กชาย/เด็กหญิง).
+model MasterTitleName {
+  id     String @id @default(cuid())
+  /// Natural code from CMI spec (5=คุณ, 6=นาย, 7=นาง, 8=นางสาว, 258=เด็กชาย, 262=เด็กหญิง)
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  @@map("master_title_names")
+}
+
+/// Master card types (ID Card, Passport, etc.)
+model MasterCardType {
+  id     String @id @default(cuid())
+  /// Natural code (1=บัตรประชาชน, 2=หนังสือเดินทาง, 3=บัตรต่างด้าว, 4=บัตรข้าราชการ, 5=บัตรรัฐ)
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  identityDocuments IdentityDocument[]
+
+  @@map("master_card_types")
+}
+
+/// Master nationalities — ISO-3166 Alpha-3 codes.
+/// [DATA] Full ISO-3166 nationality list is a follow-up bulk import — see seed.ts.
+model MasterNationality {
+  id     String @id @default(cuid())
+  /// ISO-3166 Alpha-3 code (e.g. THA, LAO, CHN, VNM)
+  code   String @unique
+  nameTh String?
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  @@map("master_nationalities")
+}
+
+/// Master provinces (all 77 Thai provinces).
+/// [DATA] Full province list is a follow-up bulk import — see seed.ts.
+model MasterProvince {
+  id     String @id @default(cuid())
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  districts MasterDistrict[]
+
+  @@map("master_provinces")
+}
+
+/// Master districts (อำเภอ) — child of province.
+/// [DATA] Full district list is a follow-up bulk import — see seed.ts.
+model MasterDistrict {
+  id     String @id @default(cuid())
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  provinceId String
+  province   MasterProvince @relation(fields: [provinceId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+
+  subdistricts MasterSubdistrict[]
+
+  @@map("master_districts")
+}
+
+/// Master subdistricts (ตำบล) — child of district.
+/// [DATA] Full subdistrict list is a follow-up bulk import — see seed.ts.
+model MasterSubdistrict {
+  id         String @id @default(cuid())
+  code       String @unique
+  nameTh     String
+  nameEn     String?
+  postalCode String?
+
+  districtId String
+  district   MasterDistrict @relation(fields: [districtId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+
+  @@map("master_subdistricts")
+}
+
+/// Master car brands.
+/// [DATA] Full brand list is a follow-up bulk import — see seed.ts.
+model MasterCarBrand {
+  id     String @id @default(cuid())
+  code   String @unique
+  name   String
+  nameTh String?
+
+  createdAt DateTime @default(now())
+
+  models   MasterCarModel[]
+  vehicles Vehicle[]
+
+  @@map("master_car_brands")
+}
+
+/// Master car models — child of brand.
+/// [DATA] Full model list is a follow-up bulk import — see seed.ts.
+model MasterCarModel {
+  id     String @id @default(cuid())
+  code   String @unique
+  name   String
+  nameTh String?
+
+  brandId String
+  brand   MasterCarBrand @relation(fields: [brandId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+
+  vehicles Vehicle[]
+
+  @@map("master_car_models")
+}
+
+/// Master car colors.
+model MasterCarColor {
+  id     String @id @default(cuid())
+  /// Natural code from CMI spec (1=เขียวเหลือง, 2=ดำ, ... 999=อื่นๆ)
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  vehicles Vehicle[]
+
+  @@map("master_car_colors")
+}
+
+/// Master vehicle types.
+model MasterVehicleType {
+  id     String @id @default(cuid())
+  /// Natural code from CMI spec (e.g. 1.10, 1.20A, 1.40A)
+  code   String @unique
+  nameTh String
+  nameEn String?
+
+  createdAt DateTime @default(now())
+
+  vehicles Vehicle[]
+
+  @@map("master_vehicle_types")
 }
