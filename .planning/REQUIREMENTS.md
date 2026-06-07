@@ -22,8 +22,8 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 - [ ] **CUST-01**: User can capture a **Lead** (contact + intent)
 - [ ] **CUST-02**: User can convert a **Lead** into a **Customer**
-- [ ] **CUST-03**: User can attach an **IdentityDocument** (passport or national ID) to a Customer
-- [ ] **CUST-04**: System runs **OCR** on an IdentityDocument and stores a raw **OcrResult** (never "cleaned")
+- [x] **CUST-03**: User can attach an **IdentityDocument** (passport or national ID) to a Customer
+- [x] **CUST-04**: System runs **OCR** on an IdentityDocument and stores a raw **OcrResult** (never "cleaned")
 - [ ] **CUST-05**: System validates a Thai National ID via the 13-digit checksum (pure validator, never the LLM)
 - [ ] **CUST-06**: System validates passport number format (pure validator)
 - [ ] **CUST-07**: User must human-verify OCR-extracted money/legal fields before they are used in an Order
@@ -99,8 +99,8 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 - [ ] **CMI-01**: Master tables exist and are seeded — `insurance_companies`, `cmi_policy_types`, title names, card types, nationalities (ISO-3166 Alpha-3), provinces/districts/subdistricts, car brands/models/colors, vehicle types
 - [ ] **CMI-02**: User selects an **insurance company** and **New Policy or Renewal** to start an Order
-- [ ] **CMI-03**: System OCRs the **vehicle registration book** (Google Document AI) into a raw OcrResult of owner + vehicle fields
-- [ ] **CMI-04**: System **AI-maps** OCR-extracted values to master-table entries for user verification; the AI mapping never performs identifier checksum validation (that stays deterministic per CUST-05/06, VEH-02)
+- [x] **CMI-03**: System OCRs the **vehicle registration book** (Google Document AI) into a raw OcrResult of owner + vehicle fields
+- [x] **CMI-04**: System **AI-maps** OCR-extracted values to master-table entries for user verification; the AI mapping never performs identifier checksum validation (that stays deterministic per CUST-05/06, VEH-02)
 - [ ] **CMI-05**: User pays for a Thai CMI Order via **PromptPay QR / Omise / 2C2P** (THB)
 - [ ] **CMI-06**: Issued CMI **policy (Certificate) PDF** is delivered to the customer and the Order is managed by staff in admin
 
@@ -173,8 +173,8 @@ providers** in Phase 10 (noted in the Notes column); the requirement is not re-c
 | SEC-03 | Phase 2 | Pending | Audit log per PII access |
 | CUST-01 | Phase 3 | Pending | Lead capture |
 | CUST-02 | Phase 3 | Pending | Lead → Customer |
-| CUST-03 | Phase 3 | Pending | Attach IdentityDocument |
-| CUST-04 | Phase 3 | Pending | Fake OCR → raw OcrResult; real Google Vision in P10 |
+| CUST-03 | Phase 3 | Complete | Attach IdentityDocument |
+| CUST-04 | Phase 3 | Complete | Fake OCR → raw OcrResult; real Google Vision in P10 |
 | CUST-07 | Phase 3 | Pending | Human-verify gate on money/legal fields |
 | VEH-01 | Phase 3 | Pending | Vehicle capture |
 | FX-04 | Phase 4 | Pending | Order charged from stored locked FxQuote |
