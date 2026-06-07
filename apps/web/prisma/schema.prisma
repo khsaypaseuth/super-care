@@ -88,13 +88,18 @@ model Account {
 
 /// A prospective customer who has expressed interest but not yet transacted.
 model Lead {
-  id        String   @id @default(cuid())
-  email     String?
-  phone     String?
-  notes     String?
-  market    Market   @default(TH)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(cuid())
+  email       String?
+  phone       String?
+  notes       String?
+  market      Market    @default(TH)
+  /// FK set when this Lead is converted to a Customer (CUST-02).
+  customerId  String?   @unique
+  customer    Customer? @relation(fields: [customerId], references: [id])
+  /// Timestamp when the Lead was converted to a Customer.
+  convertedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("leads")
 }
@@ -126,6 +131,11 @@ model Customer {
   consentAt      DateTime?
   consentVersion String?
 
+  /// Staff/system actor who completed verification (CUST-07). Wired to real auth in Phase 7.
+  verifiedBy  String?
+  /// Timestamp when this Customer's required fields were verified (CUST-07).
+  verifiedAt  DateTime?
+
   market    Market   @default(TH)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,6 +144,8 @@ model Customer {
   identityDocuments IdentityDocument[]
   vehicles          Vehicle[]
   orders            Order[]
+  /// Reverse relation: the Lead that was converted into this Customer.
+  convertedFromLead Lead?
 
   @@map("customers")
 }
@@ -176,6 +188,11 @@ model Vehicle {
   vehicleTypeId String?
   vehicleType   MasterVehicleType? @relation(fields: [vehicleTypeId], references: [id])
 
+  /// Staff/system actor who verified this vehicle's identifiers (CUST-07).
+  verifiedBy String?
+  /// Timestamp when this Vehicle's required identifiers were verified (CUST-07).
+  verifiedAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -211,6 +228,48 @@ model IdentityDocument {
   ocrResults OcrResult[]
 
   @@map("identity_documents")
+}
+
+/// In-progress wizard state for the CMI intake flow.
+/// Holds insurer/policy selection, entity refs (lead, customer, identityDocument,
+/// ocrResult, vehicle), per-field mapping selections, per-field verified flags, and the
+/// current wizard step. Persisted server-side so refresh/resume works (03-CONTEXT.md).
+model DraftIntake {
+  id String @id @default(cuid())
+
+  /// Selected insurance company (filled at Step 1).
+  insuranceCompanyId String?
+  /// Policy mode string: "NEW" or "RENEWAL" (CMI-02 step).
+  policyMode         String?
+
+  /// Lead captured at Step 2. Nullable FK — set once Lead is created.
+  leadId     String?
+  /// Customer linked once Lead is converted.
+  customerId String?
+
+  /// IdentityDocument row created when the file is uploaded (Step 3).
+  identityDocumentId String?
+  /// OcrResult row from the fake OCR extraction (Step 3).
+  ocrResultId        String?
+
+  /// Vehicle row created/confirmed at Step 5.
+  vehicleId String?
+
+  /// Per-field mapper suggestions — opaque Json (brand/model/color/vehicleType raw→id suggestions).
+  /// Nullable until Step 4 mapping runs.
+  mapping Json?
+
+  /// Per-field human-verified flags map (e.g. {"chassisNumber":true,"nationalId":false}).
+  /// Default empty object; CUST-07 gate requires all REQUIRED_VERIFY_FIELDS to be true.
+  verified Json @default("{}")
+
+  /// Current wizard step identifier (e.g. "insurer", "customer", "upload", "map-verify", "vehicle", "review").
+  step String @default("insurer")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("draft_intakes")
 }
 
 /// The raw extracted output from OCR of an IdentityDocument. Never "cleaned".
