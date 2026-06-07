@@ -1,0 +1,29 @@
+{
+  "common": {
+    "appName": "Super Care",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "home": {
+    "title": "Super Care",
+    "subtitle": "Cross-border vehicle insurance — simple, correct, fast.",
+    "startIntake": "Start New Intake"
+  },
+  "health": {
+    "title": "Health Check",
+    "status": "Status",
+    "ok": "OK",
+    "description": "Application is running."
+  },
+  "nav": {
+    "home": "Home",
+    "intakes": "Intakes"
+  }
+}

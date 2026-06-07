@@ -25,9 +25,12 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
       "@prisma/engines",
+      "@swc/core",
       "esbuild",
-      "prisma"
+      "prisma",
+      "sharp"
     ]
   }
 }
