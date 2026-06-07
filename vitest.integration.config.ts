@@ -20,6 +20,17 @@
  */
 import { defineConfig } from "vitest/config";
 
+// Load local env files so `pnpm test:int` works from the repo root without manually
+// exporting env. Node 22's process.loadEnvFile populates process.env from a .env file.
+// In CI these files don't exist (env comes from the job env), so we ignore "not found".
+for (const envPath of ["apps/web/.env", ".env"]) {
+  try {
+    process.loadEnvFile(envPath);
+  } catch {
+    // file absent (e.g. CI) — env is supplied by the environment instead
+  }
+}
+
 export default defineConfig({
   test: {
     include: ["apps/web/src/**/*.int.spec.ts"],
