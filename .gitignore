@@ -9,6 +9,9 @@ build/
 out/
 *.tsbuildinfo
 
+# Test coverage
+coverage/
+
 # Environment & secrets — NEVER commit
 .env
 .env.*

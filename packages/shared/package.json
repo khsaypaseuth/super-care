@@ -1,0 +1,54 @@
+{
+  "name": "@super-care/shared",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./money": {
+      "import": "./dist/money/index.js",
+      "types": "./dist/money/index.d.ts"
+    },
+    "./fx": {
+      "import": "./dist/fx/index.js",
+      "types": "./dist/fx/index.d.ts"
+    },
+    "./premium": {
+      "import": "./dist/premium/index.js",
+      "types": "./dist/premium/index.d.ts"
+    },
+    "./commission": {
+      "import": "./dist/commission/index.js",
+      "types": "./dist/commission/index.d.ts"
+    },
+    "./order": {
+      "import": "./dist/order/index.js",
+      "types": "./dist/order/index.d.ts"
+    },
+    "./validators": {
+      "import": "./dist/validators/index.js",
+      "types": "./dist/validators/index.d.ts"
+    },
+    "./schemas": {
+      "import": "./dist/schemas/index.js",
+      "types": "./dist/schemas/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "big.js": "7.0.1",
+    "xstate": "5.32.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/big.js": "^6.0.0"
+  }
+}

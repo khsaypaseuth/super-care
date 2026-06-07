@@ -1,0 +1,9 @@
+{
+  "name": "@super-care/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@super-care/shared": "workspace:*"
+  }
+}
