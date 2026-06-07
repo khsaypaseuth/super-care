@@ -23,13 +23,10 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: ["apps/web/src/**/*.int.spec.ts"],
-    // Integration tests run serially to avoid parallel DB clobbering
-    pool: "forks",
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    // Run test FILES sequentially (Vitest 4 API — fileParallelism replaces singleFork).
+    // This prevents concurrent DB access across test files which would cause
+    // beforeEach(truncateAll) in one file from wiping another file's in-progress test data.
+    fileParallelism: false,
     // No watch mode — integration tests are run explicitly
     watch: false,
     // Extend timeout: migrations + DB round-trips are slower than unit tests
