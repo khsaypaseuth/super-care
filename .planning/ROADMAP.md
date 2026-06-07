@@ -88,7 +88,7 @@ Plans:
 Plans:
 
 - [x] 02-01-PLAN.md — Prisma 7 install + schema shell (generator/datasource/enums), CryptoService + KeyProvider + blind-index (TDD unit), OrderState drift guard, integration vitest project, .env.example + USER-SETUP.md
-- [ ] 02-02-PLAN.md — Full schema (domain + 12 CMI master + User/Account + audit_logs + idempotency_keys) + [BLOCKING] initial migration, repository audit/blind-index spine, idempotent seed (integration)
+- [x] 02-02-PLAN.md — Full schema (domain + 12 CMI master + User/Account + audit_logs + idempotency_keys) + [BLOCKING] initial migration, repository audit/blind-index spine, idempotent seed (integration) — 27 integration tests green
 - [ ] 02-03-PLAN.md — gitleaks CI secret-scan (license-free binary) + Postgres service container + planted-secret human-verify
 
 ### Phase 3: Identity & Vehicle Capture (fakes)
