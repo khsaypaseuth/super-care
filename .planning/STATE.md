@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: "Phase 02 Plan 02 COMPLETE — full schema migrated, PII encrypted, audit-in-transaction, idempotent seed, 27 integration tests green. Next: Phase 02 Plan 03 (gitleaks CI secret-scan)."
-last_updated: "2026-06-07T10:55:00.000Z"
+last_updated: "2026-06-07T13:44:15.121Z"
 last_activity: 2026-06-07
 progress:
   total_phases: 10
-  completed_phases: 1
-  total_plans: 7
-  completed_plans: 6
-  percent: 15
+  completed_phases: 2
+  total_plans: 13
+  completed_plans: 8
+  percent: 20
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core value:** A real customer can complete one paid, certificate-issued cross-border insurance transaction, top to bottom, with correct money math.
-**Current focus:** Phase 02 — encrypted-data-layer-audit-spine (Plan 03 next)
+**Current focus:** Phase 03 — identity-vehicle-capture-fakes
 
 ## Current Position
 
-Phase: 02 (encrypted-data-layer-audit-spine) — EXECUTING
-Plan: 3 of 3 (02-03 gitleaks secret-scan)
+Phase: 03 (identity-vehicle-capture-fakes) — EXECUTING
+Plan: 2 of 6
 Status: Ready to execute
 Last activity: 2026-06-07
 
-Progress: [██░░░░░░░░] 15%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [██░░░░░░░░] 15%
 - Trend: larger integration-heavy plans take 30–45 min; pure TDD modules ~8–11 min
 
 *Updated after each plan completion*
+| Phase 03 P03-01 | 35 | 2 tasks | 23 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,9 @@ Recent decisions affecting current work:
 - [02-02]: Repository-based audit (not $extends/middleware) — caller ActorContext, atomic $transaction.
 - [02-02]: fileParallelism: false (Vitest 4 API) replaces singleFork for serial integration test file execution.
 - [02-02]: [DATA] bulk CMI imports (provinces/nationalities/brands/models) deferred — seed covers inline spec examples only.
+- [03-01]: apps/web converted from tsc -b library to Next-owned tsconfig; root typecheck now: tsc -b (packages/shared) + tsc --noEmit -p apps/web.
+- [03-01]: Next.js 16 uses proxy convention — middleware.ts renamed to proxy.ts.
+- [03-01]: ESLint app/ coverage via @next/eslint-plugin-next native flat config (not FlatCompat — circular ref bug in ESLint 10).
 
 ### Pending Todos
 
@@ -101,5 +105,5 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-06-07T10:55:00.000Z
-Stopped at: Phase 02 Plan 02 COMPLETE — full schema migrated, PII encrypted, audit-in-transaction, idempotent seed, 27 integration tests green. Next: Phase 02 Plan 03 (gitleaks CI secret-scan).
+Last session: 2026-06-07T13:44:15.119Z
+Stopped at: Phase 03 Plan 01 COMPLETE — Next.js App Router shell running; Tailwind v4 + next-intl + Playwright smoke green; root typecheck/lint/CI reconciled. Next: Phase 03 Plan 02.

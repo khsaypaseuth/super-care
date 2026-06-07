@@ -13,10 +13,10 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 ### Platform & Foundation
 
-- [ ] **PLAT-01**: pnpm monorepo (`apps/api` NestJS, `apps/web` Next.js, `packages/shared`) builds with strict TypeScript (`noImplicitAny`, `any` banned)
+- [x] **PLAT-01**: pnpm monorepo (`apps/api` NestJS, `apps/web` Next.js, `packages/shared`) builds with strict TypeScript (`noImplicitAny`, `any` banned)
 - [ ] **PLAT-02**: Zod schemas validate every untrusted boundary (API bodies, OCR output, webhook payloads, chat input) before use
 - [ ] **PLAT-03**: Money is represented as decimal (Prisma `Decimal` / big.js), never floating point, end to end
-- [ ] **PLAT-04**: CI gate runs typecheck + lint + tests and must be green before merge
+- [x] **PLAT-04**: CI gate runs typecheck + lint + tests and must be green before merge
 
 ### Customer & Identity
 
@@ -90,7 +90,7 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 ### User Interface
 
-- [ ] **UI-01**: All customer- and staff-facing screens are **mobile responsive**
+- [x] **UI-01**: All customer- and staff-facing screens are **mobile responsive**
 
 ### Thai CMI & Reference Data
 
@@ -155,10 +155,10 @@ providers** in Phase 10 (noted in the Notes column); the requirement is not re-c
 
 | Requirement | Phase | Status | Notes |
 |-------------|-------|--------|-------|
-| PLAT-01 | Phase 1 | Pending | Monorepo + strict TS |
+| PLAT-01 | Phase 1 | Complete | Monorepo + strict TS |
 | PLAT-02 | Phase 1 | Pending | Zod boundary schemas (applied at every edge through P10) |
 | PLAT-03 | Phase 1 | Pending | Decimal money representation locked before persistence |
-| PLAT-04 | Phase 1 | Pending | CI gate |
+| PLAT-04 | Phase 1 | Complete | CI gate |
 | CUST-05 | Phase 1 | Pending | Thai-ID checksum pure validator (TDD) |
 | CUST-06 | Phase 1 | Pending | Passport format pure validator (TDD) |
 | VEH-02 | Phase 1 | Pending | Plate/chassis/engine format validators (TDD) |
