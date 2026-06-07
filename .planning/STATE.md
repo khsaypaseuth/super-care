@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: "Phase 01 Plan 03 — complete"
-last_updated: "2026-06-07T09:05:00Z"
-last_activity: "2026-06-07 -- Phase 01 Plan 03 complete: Five identifier validators TDD'd; 36 new tests, 80 total green"
+status: phase-complete
+stopped_at: "Phase 01 Plan 04 — complete (Phase 01 DONE)"
+last_updated: "2026-06-07T09:10:00Z"
+last_activity: "2026-06-07 -- Phase 01 Plan 04 complete: Order machine + commission TDD'd; 54 new tests, 134 total green"
 progress:
   total_phases: 10
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
-  percent: 7
+  completed_plans: 4
+  percent: 10
 ---
 
 # Project State
@@ -21,35 +21,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core value:** A real customer can complete one paid, certificate-issued cross-border insurance transaction, top to bottom, with correct money math.
-**Current focus:** Phase 01 — foundation-money-legal-cores
+**Current focus:** Phase 02 — data-layer (next phase)
 
 ## Current Position
 
-Phase: 01 (foundation-money-legal-cores) — EXECUTING
-Plan: 4 of 4 (next: 01-04 order machine + commission)
-Status: Active — Plans 01-01, 01-02, and 01-03 complete
-Last activity: 2026-06-07 -- Plan 01-03 complete: Five identifier validators TDD'd (Thai-ID, passport, plate, chassis, engine); 36 new tests, 80 total green; typecheck + lint clean
+Phase: 01 (foundation-money-legal-cores) — COMPLETE
+Plan: 4 of 4 — ALL COMPLETE
+Status: Phase 01 done — all 4 plans complete
+Last activity: 2026-06-07 -- Plan 01-04 complete: Order state machine (39 tests — all states/failure/refund/illegal-throw) + commission tier ladder (15 tests — boundary vectors both sides); 54 new tests, 134 total green; typecheck + lint clean
 
-Progress: [██░░░░░░░░] 5%
+Progress: [██░░░░░░░░] 10%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
-- Average duration: ~10 min
-- Total execution time: ~30 min
+- Total plans completed: 4
+- Average duration: ~9 min
+- Total execution time: ~38 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 3 of 4 | ~30min | ~10min |
+| 01-foundation | 4 of 4 DONE | ~38min | ~9.5min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (~7min), 01-02 (~15min)
-- Trend: —
+- Last 5 plans: 01-01 (~7min), 01-02 (~15min), 01-03 (~8min), 01-04 (~8min)
+- Trend: consistent ~8-10 min/plan for pure TDD modules
 
 *Updated after each plan completion*
 
@@ -66,10 +66,14 @@ Recent decisions affecting current work:
 - [01-02]: Big.roundUp (ceil) applied ONCE at the FX boundary; nowhere else in the codebase.
 - [01-02]: MARKUP_KIPS_PER_RATE_UNIT = Big(15) on per-THB rate only [ASSUMED A1 — confirm unit with rate-feed spec].
 - [01-02]: PREMIUM_TABLE amounts are placeholder [ASSUMED A2] — real rate card deferred.
+- [01-04]: Plain TRANSITIONS table (not XState transition()) is the throw-on-illegal mechanism; xstate createMachine still exported for visualization.
+- [01-04]: Whole-volume tier selection for commission: highest tier with minVolume <= partnerVolume applies to whole order (not marginal).
+- [01-04]: Commission rounding: Big.roundHalfUp at 2dp (THB satang) — documented; different from FX ceil.
+- [01-04]: LADDER commission tiers are placeholder [ASSUMED A3] — real partner policy deferred.
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
@@ -90,4 +94,4 @@ Items acknowledged and carried forward:
 ## Session Continuity
 
 Last session: 2026-06-07
-Stopped at: Plan 01-03 complete — all 3 tasks done (Thai-ID, Passport, Plate/Chassis/Engine + barrel). Next: Plan 01-04 (Order state machine + commission tier ladder).
+Stopped at: Phase 01 COMPLETE — all 4 plans done. 134 total tests green, typecheck + lint clean. Next: Phase 02 (data layer / Prisma schema).
