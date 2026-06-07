@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: "Phase 01 Plan 01 — paused at Task 4 checkpoint:human-verify (CI red-on-failure proof)"
+last_updated: "2026-06-07T01:39:00Z"
+last_activity: "2026-06-07 -- Phase 01 Plan 01 Tasks 1-3 complete; awaiting human CI verification"
+progress:
+  total_phases: 10
+  completed_phases: 0
+  total_plans: 4
+  completed_plans: 0
+  percent: 0
+---
+
 # Project State
 
 ## Project Reference
@@ -5,20 +21,21 @@
 See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core value:** A real customer can complete one paid, certificate-issued cross-border insurance transaction, top to bottom, with correct money math.
-**Current focus:** Phase 1 — Foundation & Money/Legal Cores
+**Current focus:** Phase 01 — foundation-money-legal-cores
 
 ## Current Position
 
-Phase: 1 of 10 (Foundation & Money/Legal Cores)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-06-06 — Roadmap created (10 phases, fine granularity), 41/41 requirements mapped
+Phase: 01 (foundation-money-legal-cores) — EXECUTING
+Plan: 1 of 4 (in progress — paused at Task 4 checkpoint:human-verify)
+Status: Awaiting human CI verification (PLAT-04 red-on-failure proof)
+Last activity: 2026-06-07 -- Plan 01-01 Tasks 1-3 committed; checkpoint reached
 
 Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0
 - Average duration: —
 - Total execution time: 0 hours
@@ -30,6 +47,7 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 **Recent Trend:**
+
 - Last 5 plans: —
 - Trend: —
 
@@ -68,5 +86,5 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-06-06
-Stopped at: Roadmap, traceability, and state initialized. Ready to plan Phase 1.
+Last session: 2026-06-07
+Stopped at: Plan 01-01 Task 4 checkpoint:human-verify — need to push a branch with a failing test and confirm CI goes red. Resume by typing "approved" once CI red is observed.
