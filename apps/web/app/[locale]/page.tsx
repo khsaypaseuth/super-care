@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -10,12 +11,12 @@ export default function HomePage() {
         <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
         <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
         <div className="pt-4">
-          <a
+          <Link
             href="/en/health"
             className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-opacity"
           >
             {tCommon("continue")}
-          </a>
+          </Link>
         </div>
       </div>
     </main>

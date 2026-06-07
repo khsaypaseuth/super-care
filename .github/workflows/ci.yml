@@ -109,6 +109,42 @@ jobs:
         run: |
           echo "::notice::Integration tests skipped — set repo secrets CI_MASTER_KEY_V1 and CI_INDEX_KEY to enable them in CI."
 
+  e2e-tests:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.x"
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @super-care/web exec playwright install --with-deps chromium
+
+      - name: Run Playwright smoke tests
+        run: pnpm --filter @super-care/web exec playwright test e2e/smoke.spec.ts --reporter=line
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
   secret-scan:
     name: Secret Scan (gitleaks)
     runs-on: ubuntu-latest
