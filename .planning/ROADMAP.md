@@ -55,7 +55,7 @@ Plans:
 
 - [x] 01-01-PLAN.md — Monorepo scaffold, strict TS, ESLint(any-banned)+Prettier, Vitest, Zod boundary pattern, app shells, CI gate
 - [x] 01-02-PLAN.md — Money value object (big.js), FX quote (+15/unit ceil + direction rule), table-driven Premium
-- [ ] 01-03-PLAN.md — Identifier validators: Thai-ID checksum, passport, plate/chassis/engine
+- [x] 01-03-PLAN.md — Identifier validators: Thai-ID checksum, passport, plate/chassis/engine
 - [ ] 01-04-PLAN.md — Order state machine (illegal throws, refund path) + commission tier ladder
 
 ### Phase 2: Encrypted Data Layer & Audit Spine
@@ -224,7 +224,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Money/Legal Cores | 2/4 | In Progress|  |
+| 1. Foundation & Money/Legal Cores | 3/4 | In Progress|  |
 | 2. Encrypted Data Layer & Audit Spine | 0/TBD | Not started | - |
 | 3. Identity & Vehicle Capture (fakes) | 0/TBD | Not started | - |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |

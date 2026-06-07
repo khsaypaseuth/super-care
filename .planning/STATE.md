@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Phase 01 Plan 02 — complete"
-last_updated: "2026-06-07T08:51:00Z"
-last_activity: "2026-06-07 -- Phase 01 Plan 02 complete: Money/FX/Premium pure cores TDD'd and green"
+stopped_at: "Phase 01 Plan 03 — complete"
+last_updated: "2026-06-07T09:05:00Z"
+last_activity: "2026-06-07 -- Phase 01 Plan 03 complete: Five identifier validators TDD'd; 36 new tests, 80 total green"
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
-  percent: 5
+  completed_plans: 3
+  percent: 7
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 ## Current Position
 
 Phase: 01 (foundation-money-legal-cores) — EXECUTING
-Plan: 3 of 4 (next: 01-03 validators)
-Status: Active — Plans 01-01 and 01-02 complete
-Last activity: 2026-06-07 -- Plan 01-02 complete: Money value object (PLAT-03), FX quote (FX-02/03), Premium lookup (FX-01) TDD'd; 44 tests passing; typecheck + lint clean
+Plan: 4 of 4 (next: 01-04 order machine + commission)
+Status: Active — Plans 01-01, 01-02, and 01-03 complete
+Last activity: 2026-06-07 -- Plan 01-03 complete: Five identifier validators TDD'd (Thai-ID, passport, plate, chassis, engine); 36 new tests, 80 total green; typecheck + lint clean
 
 Progress: [██░░░░░░░░] 5%
 
@@ -36,15 +36,15 @@ Progress: [██░░░░░░░░] 5%
 
 **Velocity:**
 
-- Total plans completed: 2
-- Average duration: ~11 min
-- Total execution time: ~22 min
+- Total plans completed: 3
+- Average duration: ~10 min
+- Total execution time: ~30 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 2 of 4 | ~22min | ~11min |
+| 01-foundation | 3 of 4 | ~30min | ~10min |
 
 **Recent Trend:**
 
@@ -90,4 +90,4 @@ Items acknowledged and carried forward:
 ## Session Continuity
 
 Last session: 2026-06-07
-Stopped at: Plan 01-02 complete — all 3 tasks (Money, FX, Premium) done. Next: Plan 01-03 (validators: Thai-ID checksum, passport, plate, chassis, engine).
+Stopped at: Plan 01-03 complete — all 3 tasks done (Thai-ID, Passport, Plate/Chassis/Engine + barrel). Next: Plan 01-04 (Order state machine + commission tier ladder).
