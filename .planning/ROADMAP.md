@@ -106,8 +106,15 @@ Plans:
   4. The flow **cannot advance** money/legal fields out of capture until a human verifies/corrects them; `verifiedBy` and the verification are recorded in `audit_logs`
 
 **Exit gate**: OCR-adapter contract returns raw fields (structurally no LLM/identifier cleaning); human-verify gate blocks advancement without `verifiedBy`.
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 6 plans
+Plans:
+
+- [ ] 03-01-PLAN.md — [Wave 0] Convert apps/web to a runnable Next.js App Router app; install Tailwind v4 + shadcn/ui + next-intl + RHF (dep-vetting checkpoint); reconcile root typecheck/lint/CI for app/; Playwright smoke
+- [ ] 03-02-PLAN.md — [Wave 0][BLOCKING] Prisma migration (Lead→Customer link, verifiedBy/At, DraftIntake) + lead/vehicle/ocr-result/draft-intake repos (encrypt + blind-index + audit-in-tx) with integration tests
+- [ ] 03-03-PLAN.md — Port interfaces + fake adapters (OCR/Mapper/Storage) + config-selected registry: raw-OcrResult-never-cleaned, mapper-suggestions-only (no identifier validation), encrypted storage with path-traversal guard
+- [ ] 03-04-PLAN.md — intake.service orchestration + server-enforced human-verify gate (CUST-07) + transactional gated save (Lead→Customer + IdentityDocument + Vehicle, verifiedBy/At, audit) with unit + integration tests
+- [ ] 03-05-PLAN.md — Wizard slice part 1: failing happy-path e2e + thin Server Actions + steps Start (insurer + New/Renewal), Customer (inline identifier validation), Document & OCR (upload → raw OcrResult)
+- [ ] 03-06-PLAN.md — Wizard slice part 2: Map & Verify (raw|mapped + per-field verify, gate-aware), Vehicle, Review & Save; happy-path e2e passes end-to-end + verify-gate e2e + mobile responsive
 
 ### Phase 4: Pricing & Order Spine
 
@@ -244,7 +251,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation & Money/Legal Cores | 4/4 | Complete   | 2026-06-07 |
 | 2. Encrypted Data Layer & Audit Spine | 3/3 | Complete   | 2026-06-07 |
-| 3. Identity & Vehicle Capture (fakes) | 0/TBD | Not started | - |
+| 3. Identity & Vehicle Capture (fakes) | 0/6 | Planned | - |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |
 | 5. Payment (fakes) | 0/TBD | Not started | - |
 | 6. Certificate Issuance & Refund Path (fakes) | 0/TBD | Not started | - |
