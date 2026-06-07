@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Phase 01 Plan 01 — paused at Task 4 checkpoint:human-verify (CI red-on-failure proof)"
-last_updated: "2026-06-07T01:39:00Z"
-last_activity: "2026-06-07 -- Phase 01 Plan 01 Tasks 1-3 complete; awaiting human CI verification"
+stopped_at: "Phase 01 Plan 02 — complete"
+last_updated: "2026-06-07T08:51:00Z"
+last_activity: "2026-06-07 -- Phase 01 Plan 02 complete: Money/FX/Premium pure cores TDD'd and green"
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 4
-  completed_plans: 0
-  percent: 0
+  completed_plans: 2
+  percent: 5
 ---
 
 # Project State
@@ -26,29 +26,29 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 ## Current Position
 
 Phase: 01 (foundation-money-legal-cores) — EXECUTING
-Plan: 1 of 4 (in progress — paused at Task 4 checkpoint:human-verify)
-Status: Awaiting human CI verification (PLAT-04 red-on-failure proof)
-Last activity: 2026-06-07 -- Plan 01-01 Tasks 1-3 committed; checkpoint reached
+Plan: 3 of 4 (next: 01-03 validators)
+Status: Active — Plans 01-01 and 01-02 complete
+Last activity: 2026-06-07 -- Plan 01-02 complete: Money value object (PLAT-03), FX quote (FX-02/03), Premium lookup (FX-01) TDD'd; 44 tests passing; typecheck + lint clean
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 5%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 2
+- Average duration: ~11 min
+- Total execution time: ~22 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-foundation | 2 of 4 | ~22min | ~11min |
 
 **Recent Trend:**
 
-- Last 5 plans: —
+- Last 5 plans: 01-01 (~7min), 01-02 (~15min)
 - Trend: —
 
 *Updated after each plan completion*
@@ -63,6 +63,9 @@ Recent decisions affecting current work:
 - [Roadmap]: 10 phases, dependency-ordered; money/legal spine (FX, validators, state machine, commission, webhooks) is TDD-mandatory and front-loaded in Phases 1, 4, 5, 6, 8.
 - [Roadmap]: Vertical slice runs entirely on FAKE adapters through Phase 6 (one paid, cert-issued Order); real providers swap in Phase 10.
 - [Roadmap]: Cross-border compliance (PDPA / Lao Law 25) + AI-agent issuance + real adapters gated to Phase 10 as the go-live gate.
+- [01-02]: Big.roundUp (ceil) applied ONCE at the FX boundary; nowhere else in the codebase.
+- [01-02]: MARKUP_KIPS_PER_RATE_UNIT = Big(15) on per-THB rate only [ASSUMED A1 — confirm unit with rate-feed spec].
+- [01-02]: PREMIUM_TABLE amounts are placeholder [ASSUMED A2] — real rate card deferred.
 
 ### Pending Todos
 
@@ -87,4 +90,4 @@ Items acknowledged and carried forward:
 ## Session Continuity
 
 Last session: 2026-06-07
-Stopped at: Plan 01-01 Task 4 checkpoint:human-verify — need to push a branch with a failing test and confirm CI goes red. Resume by typing "approved" once CI red is observed.
+Stopped at: Plan 01-02 complete — all 3 tasks (Money, FX, Premium) done. Next: Plan 01-03 (validators: Thai-ID checksum, passport, plate, chassis, engine).
