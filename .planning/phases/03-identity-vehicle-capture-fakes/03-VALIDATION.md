@@ -1,8 +1,8 @@
 ---
 phase: 3
 slug: identity-vehicle-capture-fakes
-status: draft
-nyquist_compliant: false
+status: planned
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-06-07
 ---
@@ -80,11 +80,11 @@ created: 2026-06-07
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers runnable shell + migration + adapters + e2e setup
-- [ ] No watch-mode flags (CI uses run mode)
-- [ ] Feedback latency < 30s (unit/integration)
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers runnable shell + migration + adapters + e2e setup
+- [x] No watch-mode flags (CI uses run mode)
+- [x] Feedback latency < 30s (unit/integration)
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** planned (2026-06-07)
