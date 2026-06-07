@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Phase 02 Plan 02 COMPLETE — full schema migrated, PII encrypted, audit-in-transaction, idempotent seed, 27 integration tests green. Next: Phase 02 Plan 03 (gitleaks CI secret-scan)."
-last_updated: "2026-06-07T13:44:15.121Z"
+stopped_at: "Phase 03 Plan 02 COMPLETE — migration + 4 repos (lead, vehicle, ocr-result, draft-intake) green; 62 int tests + 148 unit tests pass. Next: Phase 03 Plan 03."
+last_updated: "2026-06-07T21:00:00.000Z"
 last_activity: 2026-06-07
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 13
-  completed_plans: 8
-  percent: 20
+  completed_plans: 9
+  percent: 22
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 ## Current Position
 
 Phase: 03 (identity-vehicle-capture-fakes) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 Status: Ready to execute
 Last activity: 2026-06-07
 
-Progress: [██████░░░░] 62%
+Progress: [██████░░░░] 65%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [██████░░░░] 62%
 
 *Updated after each plan completion*
 | Phase 03 P03-01 | 35 | 2 tasks | 23 files |
+| Phase 03 P03-02 | 30 | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,9 @@ Recent decisions affecting current work:
 - [03-01]: apps/web converted from tsc -b library to Next-owned tsconfig; root typecheck now: tsc -b (packages/shared) + tsc --noEmit -p apps/web.
 - [03-01]: Next.js 16 uses proxy convention — middleware.ts renamed to proxy.ts.
 - [03-01]: ESLint app/ coverage via @next/eslint-plugin-next native flat config (not FlatCompat — circular ref bug in ESLint 10).
+- [03-02]: convertLeadToCustomer inlines encrypt+blindIndex in tx rather than calling createCustomer, so both audit rows land in one db.$transaction.
+- [03-02]: Prisma migrate dev non-interactive; workaround: migrate diff → manual migration SQL → migrate deploy (CI-safe).
+- [03-02]: Nullable JSON (DraftIntake.mapping) uses Prisma.JsonNull sentinel, not plain null.
 
 ### Pending Todos
 
@@ -105,5 +109,5 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-06-07T13:44:15.119Z
-Stopped at: Phase 03 Plan 01 COMPLETE — Next.js App Router shell running; Tailwind v4 + next-intl + Playwright smoke green; root typecheck/lint/CI reconciled. Next: Phase 03 Plan 02.
+Last session: 2026-06-07T21:00:00.000Z
+Stopped at: Phase 03 Plan 02 COMPLETE — migration + 4 repos (lead, vehicle, ocr-result, draft-intake) green; 62 int tests + 148 unit tests pass. Next: Phase 03 Plan 03.

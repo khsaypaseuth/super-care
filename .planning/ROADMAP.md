@@ -110,7 +110,7 @@ Plans:
 Plans:
 
 - [x] 03-01-PLAN.md — [Wave 0] Convert apps/web to a runnable Next.js App Router app; install Tailwind v4 + shadcn/ui + next-intl + RHF (dep-vetting checkpoint); reconcile root typecheck/lint/CI for app/; Playwright smoke
-- [ ] 03-02-PLAN.md — [Wave 0][BLOCKING] Prisma migration (Lead→Customer link, verifiedBy/At, DraftIntake) + lead/vehicle/ocr-result/draft-intake repos (encrypt + blind-index + audit-in-tx) with integration tests
+- [x] 03-02-PLAN.md — [Wave 0][BLOCKING] Prisma migration (Lead→Customer link, verifiedBy/At, DraftIntake) + lead/vehicle/ocr-result/draft-intake repos (encrypt + blind-index + audit-in-tx) with integration tests
 - [ ] 03-03-PLAN.md — Port interfaces + fake adapters (OCR/Mapper/Storage) + config-selected registry: raw-OcrResult-never-cleaned, mapper-suggestions-only (no identifier validation), encrypted storage with path-traversal guard
 - [ ] 03-04-PLAN.md — intake.service orchestration + server-enforced human-verify gate (CUST-07) + transactional gated save (Lead→Customer + IdentityDocument + Vehicle, verifiedBy/At, audit) with unit + integration tests
 - [ ] 03-05-PLAN.md — Wizard slice part 1: failing happy-path e2e + thin Server Actions + steps Start (insurer + New/Renewal), Customer (inline identifier validation), Document & OCR (upload → raw OcrResult)
