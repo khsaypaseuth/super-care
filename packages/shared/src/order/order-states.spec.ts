@@ -18,7 +18,7 @@ import { ORDER_STATES } from "./order-states.js";
 
 // ─── Expected states (from order.machine.ts TRANSITIONS keys) ────────────────
 
-const EXPECTED_STATES = new Set([
+const EXPECTED_STATES: ReadonlySet<string> = new Set<string>([
   "DRAFT",
   "OCR_FAILED",
   "QUOTED",
@@ -31,7 +31,7 @@ const EXPECTED_STATES = new Set([
   "COMPLETED",
   "REFUNDED",
   "CANCELLED",
-] as const);
+]);
 
 describe("ORDER_STATES tuple", () => {
   it("contains exactly the 12 TRANSITIONS keys from order.machine.ts (no extras, no missing)", () => {
@@ -45,7 +45,7 @@ describe("ORDER_STATES tuple", () => {
 
     // No extra states in the tuple beyond the expected set
     for (const state of tupleSet) {
-      expect(EXPECTED_STATES.has(state as string), `ORDER_STATES has unexpected state: ${state}`).toBe(true);
+      expect(EXPECTED_STATES.has(state), `ORDER_STATES has unexpected state: ${state}`).toBe(true);
     }
   });
 });
