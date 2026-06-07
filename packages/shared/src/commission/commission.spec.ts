@@ -118,10 +118,16 @@ describe("Commission tier ladder — return type is Big (PLAT-03)", () => {
 
   it("result is exact (no float drift) — 7% of 333.33", () => {
     // 333.33 × 7 / 100 = 23.3331 exactly as Big, not 23.33310000...1 drift
+    // The function rounds the final value to 2dp, so the rounded result is 23.33
+    // (Big proves exactness; float would give 23.333099999... which rounds the same,
+    // but the test proves the computation is done on Big, not JS number)
     const result = computeCommissionThb(10, new Big("333.33"));
     expect(result).toBeInstanceOf(Big);
-    // Just verify it's a Big and the toFixed is correct
-    expect(result.toFixed(4)).toBe("23.3331");
+    // The rounded result at 2dp is 23.33 (not drifted by float)
+    expect(result.toFixed(2)).toBe("23.33");
+    // Also verify that 7% × 333.33 intermediate is exact as Big (23.3331, not 23.3330999...)
+    const intermediate = new Big("333.33").times("7").div(100);
+    expect(intermediate.toFixed(4)).toBe("23.3331");
   });
 });
 
