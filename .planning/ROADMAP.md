@@ -251,7 +251,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation & Money/Legal Cores | 4/4 | Complete   | 2026-06-07 |
 | 2. Encrypted Data Layer & Audit Spine | 3/3 | Complete   | 2026-06-07 |
-| 3. Identity & Vehicle Capture (fakes) | 1/6 | In Progress|  |
+| 3. Identity & Vehicle Capture (fakes) | 2/6 | In Progress|  |
 | 4. Pricing & Order Spine | 0/TBD | Not started | - |
 | 5. Payment (fakes) | 0/TBD | Not started | - |
 | 6. Certificate Issuance & Refund Path (fakes) | 0/TBD | Not started | - |
