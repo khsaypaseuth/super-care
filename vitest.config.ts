@@ -1,6 +1,13 @@
 import { defineConfig } from "vitest/config";
+import { resolve } from "node:path";
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      // `server-only` shim for Vitest (same reason as vitest.integration.config.ts)
+      "server-only": resolve(import.meta.dirname, "apps/web/src/test/server-only-shim.ts"),
+    },
+  },
   test: {
     // Cover all unit spec files in packages/shared AND apps/web server modules
     // (no DATABASE_URL needed — unit tests inject keys directly, no DB I/O)

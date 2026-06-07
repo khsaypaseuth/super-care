@@ -19,6 +19,7 @@
  * these files are excluded by convention; integration config is the only entry point).
  */
 import { defineConfig } from "vitest/config";
+import { resolve } from "node:path";
 
 // Load local env files so `pnpm test:int` works from the repo root without manually
 // exporting env. Node 22's process.loadEnvFile populates process.env from a .env file.
@@ -32,6 +33,14 @@ for (const envPath of ["apps/web/.env", ".env"]) {
 }
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      // `server-only` is a Next.js package that throws at import time outside the
+      // Next.js runtime. In the Vitest integration (Node.js) environment we alias it
+      // to an empty shim so server modules marked `import "server-only"` load cleanly.
+      "server-only": resolve(import.meta.dirname, "apps/web/src/test/server-only-shim.ts"),
+    },
+  },
   test: {
     include: ["apps/web/src/**/*.int.spec.ts"],
     // Run test FILES sequentially (Vitest 4 API — fileParallelism replaces singleFork).
