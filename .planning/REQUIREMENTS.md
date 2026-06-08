@@ -20,8 +20,8 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 
 ### Customer & Identity
 
-- [ ] **CUST-01**: User can capture a **Lead** (contact + intent)
-- [ ] **CUST-02**: User can convert a **Lead** into a **Customer**
+- [x] **CUST-01**: User can capture a **Lead** (contact + intent)
+- [x] **CUST-02**: User can convert a **Lead** into a **Customer**
 - [x] **CUST-03**: User can attach an **IdentityDocument** (passport or national ID) to a Customer
 - [x] **CUST-04**: System runs **OCR** on an IdentityDocument and stores a raw **OcrResult** (never "cleaned")
 - [ ] **CUST-05**: System validates a Thai National ID via the 13-digit checksum (pure validator, never the LLM)
@@ -98,7 +98,7 @@ v1 = the full platform (per Master Plan appendix). Each requirement maps to a ro
 > Thai Compulsory Motor Insurance (พ.ร.บ.) flow.
 
 - [ ] **CMI-01**: Master tables exist and are seeded — `insurance_companies`, `cmi_policy_types`, title names, card types, nationalities (ISO-3166 Alpha-3), provinces/districts/subdistricts, car brands/models/colors, vehicle types
-- [ ] **CMI-02**: User selects an **insurance company** and **New Policy or Renewal** to start an Order
+- [x] **CMI-02**: User selects an **insurance company** and **New Policy or Renewal** to start an Order
 - [x] **CMI-03**: System OCRs the **vehicle registration book** (Google Document AI) into a raw OcrResult of owner + vehicle fields
 - [x] **CMI-04**: System **AI-maps** OCR-extracted values to master-table entries for user verification; the AI mapping never performs identifier checksum validation (that stays deterministic per CUST-05/06, VEH-02)
 - [ ] **CMI-05**: User pays for a Thai CMI Order via **PromptPay QR / Omise / 2C2P** (THB)
@@ -171,8 +171,8 @@ providers** in Phase 10 (noted in the Notes column); the requirement is not re-c
 | SEC-01 | Phase 2 | Complete | PII encrypted at rest |
 | SEC-02 | Phase 2 | Complete | No secrets in code + CI secret-scan |
 | SEC-03 | Phase 2 | Pending | Audit log per PII access |
-| CUST-01 | Phase 3 | Pending | Lead capture |
-| CUST-02 | Phase 3 | Pending | Lead → Customer |
+| CUST-01 | Phase 3 | Complete | Lead capture |
+| CUST-02 | Phase 3 | Complete | Lead → Customer |
 | CUST-03 | Phase 3 | Complete | Attach IdentityDocument |
 | CUST-04 | Phase 3 | Complete | Fake OCR → raw OcrResult; real Google Vision in P10 |
 | CUST-07 | Phase 3 | Pending | Human-verify gate on money/legal fields |
